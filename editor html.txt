@@ -1,0 +1,2075 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+<title><data:view.title.escaped/></title>
+<meta content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1' name='viewport'/>
+
+<b:skin><![CDATA[
+  /* ========================================================
+     [ BAGIAN: HEAD ] CSS DASAR & FULL RESPONSIVE
+     ======================================================== */
+  body { background:#ffffff; color:#333; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; overflow-x:hidden; }
+  .container { max-width: 1200px; margin: auto; padding: 0; }
+
+  /* IKLAN TOP */
+  #ads-top-wrapper { background:#ffffff; text-align:center; width:100%; display:block; min-height: 10px; }
+  
+  /* SISTEM STICKY HEADER */
+  .sticky-wrapper-total { position: sticky; top: 0; z-index: 9999; background: #ffffff; box-shadow: 0 2px 15px rgba(0,0,0,0.05); width: 100%; }
+  .wc-header-top { display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid #f5f5f5; }
+  .wc-logo-container { position: relative; left: 15px; display: flex; align-items: center; }
+  .wc-logo-container img { height: 45px; width: auto; display: block; }
+
+  /* NAVIGASI */
+  .wc-nav-full { background:#ffffff; width:100%; border-bottom: 1px solid #eee; position: relative; }
+  .wc-nav-scroll { display:flex; overflow-x:auto; white-space:nowrap; scrollbar-width:none; padding:0 15px; }
+  .wc-nav-scroll::-webkit-scrollbar { display:none; }
+  .nav-item { color:#444; padding:15px 18px; display:inline-block; text-decoration:none; font-size:14px; font-weight:700; text-transform:lowercase; cursor:pointer; }
+
+  /* ISI KONTEN (ARTIKEL & HALAMAN) */
+  .post-body-wrap { background: #ffffff; padding: 30px 0; line-height: 1.8; font-size: 18px; color: #222; min-height: 500px; }
+  .post-title-main { font-size: 32px; font-weight: 800; color: #001ba0; margin: 0 0 20px 0; letter-spacing: -1px; text-transform: lowercase; }
+
+  /* LAYOUT ZEBRA */
+  .main-wrapper { display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; background:#ffffff; }
+  .content-area { flex: 3; padding: 20px; min-width: 300px; box-sizing: border-box; }
+  .sidebar-area { flex: 1; padding: 20px; border-left: 1px solid #f5f5f5; min-width: 300px; }
+  .grid-full { width: 100%; background: #ffffff; padding: 20px 0; border-top: 1px solid #f5f5f5; border-bottom: 1px solid #f5f5f5; }
+
+  /* TAMPILAN SEARCH/LABEL */
+  .search-post-item { border-bottom: 1px solid #eee; padding: 20px 0; display: flex; gap: 20px; align-items: center; }
+  .search-post-item img { width: 150px; height: 100px; object-fit: cover; border-radius: 12px; }
+
+  @media (max-width: 768px) {
+    .main-wrapper { flex-direction: column; }
+    .sidebar-area { border: none; }
+    .wc-logo-container img { height: 35px; }
+  }
+]]></b:skin>
+</head>
+<body>
+
+  <!-- 1. SEKSI IKLAN PALING ATAS -->
+  <div id='ads-top-wrapper'>
+    <div class='container'>
+      <b:section id='ads-top-paling-atas' maxwidgets='1' showaddelement='yes'/>
+    </div>
+  </div>
+
+  <!-- 2. STICKY HEADER (MENU + LOGO + NAV) -->
+  <div class='sticky-wrapper-total'>
+    <div class='wc-header-top'>
+        <b:section id='offcanvas-menu' maxwidgets='1' showaddelement='yes'>
+          <b:widget id='HTML1' locked='false' title='' type='HTML' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='content'><![CDATA[<style>
+/* PANEL MENU MELAYANG */
+#wc-off-panel { 
+    position: fixed; top: 15px; left: 15px; 
+    width: 310px; max-height: calc(100% - 30px); 
+    background: #ffffff; z-index: 10001; 
+    box-shadow: 0 30px 70px rgba(0,0,0,0.2); 
+    border-radius: 30px; transform: translateX(-125%); 
+    transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
+    padding: 30px 25px; overflow-y: auto; font-family: sans-serif; 
+}
+#wc-off-panel.aktif { transform: translateX(0); }
+.wc-overlay-fix { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); display: none; z-index: 10000; }
+.wc-overlay-fix.aktif { display: block; }
+
+/* GRID LABEL 2x5 */
+.wc-grid-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+.wc-grid-labels a { background: #f9f9f9; padding: 12px; text-align: center; border-radius: 15px; text-decoration: none; color: #333; font-size: 12px; font-weight: 700; border: 1px solid #eee; text-transform: capitalize; }
+
+/* SOSMED MONOKROM SVG */
+.wc-soc-flex { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+.wc-soc-item { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #000; color: #fff; text-decoration: none; transition: 0.3s; }
+.wc-soc-item:hover { transform: scale(1.2); background: #001ba0; }
+.wc-soc-item svg { width: 18px; height: 18px; fill: currentColor; }
+</style>
+
+<div class="wc-overlay-fix" id="wc-overlay" onclick="toggleMenuWC()"></div>
+
+<div id="wc-off-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:15px;">
+        <img src="https://googleusercontent.com" style="height:30px; width:auto;"/>
+        <div onclick="toggleMenuWC()" style="cursor:pointer; font-size:30px; color:#ccc;">&times;</div>
+    </div>
+
+    <!-- PENCARIAN -->
+    <form action="/search" method="get" style="display:flex; background:#f5f5f5; border-radius:15px; padding:10px 15px; margin-bottom:20px;">
+        <input name="q" placeholder="Cari berita..." type="text" style="border:none; background:transparent; width:100%; outline:none;"/>
+    </form>
+
+    <div style="font-size:10px; color:#bbb; text-transform:uppercase; font-weight:800;">Kategori</div>
+    <div class="wc-grid-labels" id="side-labels-box"></div>
+
+    <div style="font-size:10px; color:#bbb; text-transform:uppercase; font-weight:800; margin-top:20px;">Informasi</div>
+    <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+        <a href="/p/disclaimer.html" style="text-decoration:none; color:#666; font-size:14px;">Disclaimer</a>
+        <a href="/p/redaksi.html" style="text-decoration:none; color:#666; font-size:14px;">Redaksi</a>
+    </div>
+
+    <div class="wc-soc-flex">
+        <a href="#" class="wc-soc-item" title="Facebook"><svg viewbox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></path></svg></a>
+        <a href="#" class="wc-soc-item" title="WhatsApp"><svg viewbox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.89 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.743-.981z"/></path></svg></a>
+    </div>
+</div>
+
+<script>
+function toggleMenuWC(){
+    var p = document.getElementById('wc-off-panel');
+    var o = document.getElementById('wc-overlay');
+    p.classList.toggle('aktif'); o.classList.toggle('aktif');
+    document.body.style.overflow = p.classList.contains('aktif') ? 'hidden' : 'auto';
+}
+function loadLabelsSide(json){
+    var cats = json.feed.category; var box = document.getElementById('side-labels-box');
+    if(cats){ for(var i=0; i<Math.min(cats.length, 10); i++){
+        var a = document.createElement('a');
+        a.href = "/search/label/" + encodeURIComponent(cats[i].term);
+        a.innerHTML = cats[i].term; box.appendChild(a);
+    } }
+}
+</script>
+<script src="/feeds/posts/summary?alt=json-in-script&max-results=0&callback=loadLabelsSide"></script>]]></b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+          </b:widget>
+        </b:section>
+        <b:section id='header-logo' maxwidgets='1' showaddelement='yes'>
+          <b:widget id='HTML2' locked='false' title='' type='HTML' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='content'><![CDATA[<style>
+.wc-header-logo-container {
+    display: flex;
+    align-items: center; /* Kunci agar sejajar lurus horizontal */
+    padding: 5px 0;
+    margin-left: 10px; /* Jarak dari ikon hamburger */
+}
+
+.wc-main-img-logo {
+    height: 40px; /* Tinggi ideal agar terlihat profesional */
+    width: auto;
+    display: block;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* Efek saat logo disentuh */
+.wc-main-img-logo:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .wc-main-img-logo {
+        height: 32px; /* Sedikit mengecil di HP agar pas */
+    }
+}
+</style>
+
+<div class="wc-header-logo-container">
+    <a href="/">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5iUBxQcCBbH4NziDZNrVxyeDbavjxX2cJk0nhYeARl1wBH_iS7KF9WLekIG531nBWA6OMNrENZjcZzLu-z-H3dD_1Qd4uqwhSOUVto4sq0Le_yg5l2zwrDKtEfpqOc_PGIHCxWaWn0t8qVFJ-GGEXYPngWN3iblHSfUXA3vdTw6Rlf6Y/s1600/logowa.png" 
+             class="wc-main-img-logo" 
+             alt="wartacreative"/>
+    </a>
+</div>]]></b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+          </b:widget>
+        </b:section>
+    </div>
+    <div class='wc-nav-full'>
+        <b:section id='nav-menu' maxwidgets='1' showaddelement='yes'>
+          <b:widget id='HTML3' locked='false' title='' type='HTML' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='content'><![CDATA[<style>
+/* --- KOREKSI NAV: HURUF BESAR AWAL --- */
+.wc-nav-scroll { display:flex; overflow-x:auto; white-space:nowrap; scrollbar-width:none; padding:0 15px; background:#fff; border-bottom:1px solid #eee; }
+.wc-nav-scroll::-webkit-scrollbar { display:none; }
+
+.n-item { 
+    color:#444; padding:15px 18px; display:inline-block; text-decoration:none; 
+    font-size:14px; font-weight:700; 
+    text-transform: capitalize; /* HURUF BESAR AWAL */
+    cursor:pointer; transition:0.2s; 
+}
+.n-item:hover { color:#001ba0; }
+
+#wc-drop-box { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; z-index:999; box-shadow:0 15px 30px rgba(0,0,0,0.1); padding:20px; border-top:1px solid #eee; }
+#wc-drop-box.aktif { display:block; }
+.g-more-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; max-width:1200px; margin:auto; }
+.g-more-grid a { background:#f9f9f9; padding:10px; text-align:center; text-decoration:none; color:#333; border-radius:10px; font-size:13px; font-weight:600; text-transform:capitalize; }
+</style>
+
+<div style="position:relative; background:#fff;">
+    <nav class="wc-nav-scroll" id="nav-target-box"></nav>
+    <div id="wc-drop-box">
+        <div style="font-size:10px; color:#bbb; text-transform:uppercase; font-weight:800; margin-bottom:15px; letter-spacing:1px;">Lainnya</div>
+        <div class="g-more-grid" id="more-target-links"></div>
+    </div>
+</div>
+
+<script>
+function buildSmartNav(json){
+    var cats = json.feed.category; var nav = document.getElementById('nav-target-box'); var more = document.getElementById('more-target-links');
+    if(cats){
+        for(var i=0; i<cats.length; i++){
+            var name = cats[i].term; var url = "/search/label/" + encodeURIComponent(name);
+            if (i < 10) {
+                var a = document.createElement('a'); a.className = 'n-item'; a.href = url; a.innerHTML = name; nav.appendChild(a);
+            } else {
+                if (i === 10) {
+                    var btn = document.createElement('div'); btn.className = 'n-item'; btn.innerHTML = 'Lainnya ▾'; btn.onclick = function(e){ e.stopPropagation(); document.getElementById('wc-drop-box').classList.toggle('aktif'); }; nav.appendChild(btn);
+                }
+                var am = document.createElement('a'); am.href = url; am.innerHTML = name; more.appendChild(am);
+            }
+        }
+    }
+}
+window.onclick = function(e){ if(!e.target.closest('#nav-target-box')){ document.getElementById('wc-drop-box').classList.remove('aktif'); } }
+</script>
+<script src="/feeds/posts/summary?alt=json-in-script&max-results=0&callback=buildSmartNav"></script>]]></b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+          </b:widget>
+        </b:section>
+    </div>
+  </div>
+
+  <div class='container'>
+    
+    <!-- ARTIKEL / HALAMAN / SEARCH (MUNCUL OTOMATIS) -->
+    <b:if cond='!data:view.isHomepage'>
+      <main class='main-wrapper'>
+        <article class='content-area'>
+          <b:section id='main-post-section' maxwidgets='1' showaddelement='yes'>
+            <b:widget id='Blog1' locked='true' title='Postingan Blog' type='Blog' version='2' visible='true'>
+              <b:widget-settings>
+                <b:widget-setting name='commentLabel'>Comments</b:widget-setting>
+                <b:widget-setting name='showShareButtons'>true</b:widget-setting>
+                <b:widget-setting name='authorLabel'>Posted by:</b:widget-setting>
+                <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+                <b:widget-setting name='timestampLabel'/>
+                <b:widget-setting name='reactionsLabel'/>
+                <b:widget-setting name='showAuthorProfile'>true</b:widget-setting>
+                <b:widget-setting name='style.layout'>1x1</b:widget-setting>
+                <b:widget-setting name='showLocation'>false</b:widget-setting>
+                <b:widget-setting name='showTimestamp'>true</b:widget-setting>
+                <b:widget-setting name='postsPerAd'>1</b:widget-setting>
+                <b:widget-setting name='style.bordercolor'>#ffffff</b:widget-setting>
+                <b:widget-setting name='showDateHeader'>false</b:widget-setting>
+                <b:widget-setting name='style.textcolor'>#ffffff</b:widget-setting>
+                <b:widget-setting name='showCommentLink'>true</b:widget-setting>
+                <b:widget-setting name='style.urlcolor'>#ffffff</b:widget-setting>
+                <b:widget-setting name='postLocationLabel'>Location:</b:widget-setting>
+                <b:widget-setting name='showAuthor'>true</b:widget-setting>
+                <b:widget-setting name='style.linkcolor'>#ffffff</b:widget-setting>
+                <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+                <b:widget-setting name='showLabels'>true</b:widget-setting>
+                <b:widget-setting name='postLabelsLabel'>Tags:</b:widget-setting>
+                <b:widget-setting name='showBacklinks'>false</b:widget-setting>
+                <b:widget-setting name='showInlineAds'>false</b:widget-setting>
+                <b:widget-setting name='showReactions'>false</b:widget-setting>
+              </b:widget-settings>
+              <b:includable id='main'>
+                <b:if cond='data:view.isSingleItem'>
+                  <b:loop values='data:posts' var='post'>
+                    <div class='post-body-wrap'>
+                      <h1 class='post-title-main'><data:post.title/></h1>
+                      <div class='post-content'><data:post.body/></div>
+                    </div>
+                  </b:loop>
+                </b:if>
+                <b:if cond='data:view.isSearch'>
+                  <h2 style='padding:20px 0; text-transform:lowercase;'>hasil: <data:view.search.label/><data:view.search.query/></h2>
+                  <b:loop values='data:posts' var='post'>
+                    <div class='search-post-item'>
+                      <b:if cond='data:post.featuredImage'><img expr:src='data:post.featuredImage'/></b:if>
+                      <div><a expr:href='data:post.url' style='font-weight:700; text-decoration:none; color:#333; font-size:18px;'><data:post.title/></a></div>
+                    </div>
+                  </b:loop>
+                </b:if>
+              </b:includable>
+              <b:includable id='aboutPostAuthor'>
+  <div class='author-name'>
+    <a class='g-profile' expr:href='data:post.author.profileUrl' rel='author' title='author profile'>
+      <span>
+        <data:post.author.name/>
+      </span>
+    </a>
+  </div>
+  <div>
+    <span class='author-desc'>
+      <data:post.author.aboutMe/>
+    </span>
+  </div>
+</b:includable>
+              <b:includable id='addComments'>
+  <a expr:href='data:post.commentsUrl' expr:onclick='data:post.commentsUrlOnclick'>
+    <b:message name='messages.postAComment'/>
+  </a>
+</b:includable>
+              <b:includable id='commentAuthorAvatar'>
+  <div class='avatar-image-container'>
+    <img class='author-avatar' expr:src='data:comment.authorAvatarSrc' height='35' width='35'/>
+  </div>
+</b:includable>
+              <b:includable id='commentDeleteIcon' var='comment'>
+  <span expr:class='&quot;item-control &quot; + data:comment.adminClass'>
+    <b:if cond='data:showCmtPopup'>
+      <div class='goog-toggle-button'>
+        <div class='goog-inline-block comment-action-icon'/>
+      </div>
+    <b:else/>
+      <a class='comment-delete' expr:href='data:comment.deleteUrl' expr:title='data:messages.deleteComment'>
+        <img src='https://resources.blogblog.com/img/icon_delete13.gif'/>
+      </a>
+    </b:if>
+  </span>
+</b:includable>
+              <b:includable id='commentForm' var='post'>
+  <div class='comment-form'>
+    <a name='comment-form'/>
+    <h4 id='comment-post-message'><data:messages.postAComment/></h4>
+    <b:if cond='data:this.messages.blogComment != &quot;&quot;'>
+      <p><data:this.messages.blogComment/></p>
+    </b:if>
+    <b:include data='post' name='commentFormIframeSrc'/>
+    <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>
+    <data:post.cmtfpIframe/>
+    <script type='text/javascript'>
+      BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);
+    </script>
+  </div>
+</b:includable>
+              <b:includable id='commentFormIframeSrc' var='post'>
+  <a expr:href='data:post.commentFormIframeSrc' id='comment-editor-src'/>
+</b:includable>
+              <b:includable id='commentItem' var='comment'>
+  <div class='comment' expr:id='&quot;c&quot; + data:comment.id'>
+    <b:include cond='data:blog.enabledCommentProfileImages' name='commentAuthorAvatar'/>
+
+    <div class='comment-block'>
+      <div class='comment-author'>
+        <b:if cond='data:comment.authorUrl'>
+          <b:message name='messages.authorSaidWithLink'>
+            <b:param expr:value='data:comment.author' name='authorName'/>
+            <b:param expr:value='data:comment.authorUrl' name='authorUrl'/>
+          </b:message>
+        <b:else/>
+          <b:message name='messages.authorSaid'>
+            <b:param expr:value='data:comment.author' name='authorName'/>
+          </b:message>
+        </b:if>
+      </div>
+      <div expr:class='&quot;comment-body&quot; + (data:comment.isDeleted ? &quot; deleted&quot; : &quot;&quot;)'>
+        <data:comment.body/>
+      </div>
+      <div class='comment-footer'>
+        <span class='comment-timestamp'>
+          <a expr:href='data:comment.url' title='comment permalink'>
+            <data:comment.timestamp/>
+          </a>
+          <b:include data='comment' name='commentDeleteIcon'/>
+        </span>
+      </div>
+    </div>
+  </div>
+</b:includable>
+              <b:includable id='commentList' var='comments'>
+  <div id='comments-block'>
+    <b:loop values='data:comments' var='comment'>
+      <b:include data='comment' name='commentItem'/>
+    </b:loop>
+  </div>
+</b:includable>
+              <b:includable id='commentPicker' var='post'>
+  <b:if cond='data:post.showThreadedComments'>
+    <b:include data='post' name='threadedComments'/>
+  <b:else/>
+    <b:include data='post' name='comments'/>
+  </b:if>
+</b:includable>
+              <b:includable id='comments' var='post'>
+  <section expr:class='&quot;comments&quot; + (data:post.embedCommentForm ? &quot; embed&quot; : &quot;&quot;)' expr:data-num-comments='data:post.numberOfComments' id='comments'>
+    <a name='comments'/>
+    <b:if cond='data:post.allowComments'>
+
+      <b:include name='commentsTitle'/>
+
+      <div expr:id='data:widget.instanceId + &quot;_comments-block-wrapper&quot;'>
+        <b:include cond='data:post.comments' data='post.comments' name='commentList'/>
+      </div>
+
+      <b:if cond='data:post.commentPagingRequired'>
+        <div class='paging-control-container'>
+          <b:if cond='data:post.hasOlderLinks'>
+            <a expr:class='data:post.oldLinkClass' expr:href='data:post.oldestLinkUrl'>
+              <data:messages.oldest/>
+            </a>
+            <a expr:class='data:post.oldLinkClass' expr:href='data:post.olderLinkUrl'>
+              <data:messages.older/>
+            </a>
+          </b:if>
+
+          <span class='comment-range-text'>
+            <data:post.commentRangeText/>
+          </span>
+
+          <b:if cond='data:post.hasNewerLinks'>
+            <a expr:class='data:post.newLinkClass' expr:href='data:post.newerLinkUrl'>
+              <data:messages.newer/>
+            </a>
+            <a expr:class='data:post.newLinkClass' expr:href='data:post.newestLinkUrl'>
+              <data:messages.newest/>
+            </a>
+          </b:if>
+        </div>
+      </b:if>
+
+      <div class='footer'>
+        <b:if cond='data:post.embedCommentForm'>
+          <b:if cond='data:post.allowNewComments'>
+            <b:include data='post' name='commentForm'/>
+          <b:else/>
+            <data:post.noNewCommentsText/>
+          </b:if>
+        <b:else/>
+          <b:if cond='data:post.allowComments'>
+            <b:include data='post' name='addComments'/>
+          </b:if>
+        </b:if>
+      </div>
+    </b:if>
+    <b:if cond='data:showCmtPopup'>
+      <div id='comment-popup'>
+        <iframe allowtransparency='allowtransparency' frameborder='0' id='comment-actions' name='comment-actions' scrolling='no'>
+        </iframe>
+      </div>
+    </b:if>
+  </section>
+</b:includable>
+              <b:includable id='commentsTitle'>
+  <h3 class='title'><data:messages.comments/></h3>
+</b:includable>
+              <b:includable id='feedLinks'>
+  <b:if cond='!data:view.isPost'> <!-- Blog feed links -->
+    <b:if cond='data:feedLinks'>
+      <div class='blog-feeds'>
+        <b:include data='feedLinks' name='feedLinksBody'/>
+      </div>
+    </b:if>
+  <b:else/> <!--Post feed links -->
+    <div class='post-feeds'>
+      <b:loop values='data:posts' var='post'>
+        <b:if cond='data:post.allowComments and data:post.feedLinks'>
+          <b:include data='post.feedLinks' name='feedLinksBody'/>
+        </b:if>
+      </b:loop>
+    </div>
+  </b:if>
+</b:includable>
+              <b:includable id='feedLinksBody' var='links'>
+  <div class='feed-links'>
+  <data:messages.subscribeTo/>
+  <b:loop values='data:links' var='f'>
+     <a class='feed-link' expr:href='data:f.url' expr:type='data:f.mimeType' target='_blank'><data:f.name/> (<data:f.feedType/>)</a>
+  </b:loop>
+  </div>
+</b:includable>
+              <b:includable id='homePageLink'>
+  <a class='home-link' expr:href='data:blog.homepageUrl'>
+    <data:messages.home/>
+  </a>
+</b:includable>
+              <b:includable id='iframeComments' var='post'>
+  <!-- G+ comments, no longer available. The includable is retained for backwards-compatibility. -->
+</b:includable>
+              <b:includable id='inlineAd' var='post'>
+  <b:if cond='!data:view.isPreview'>
+    <b:if cond='data:this.adCode or data:this.adClientId or data:blog.adsenseClientId'>
+      <!-- Ad -->
+      <div class='inline-ad'>
+        <b:if cond='data:this.adCode != &quot;&quot;'>
+          <data:this.adCode/>
+        <b:else/>
+          <b:include cond='data:this.adClientId or data:blog.adsenseClientId' name='defaultAdUnit'/>
+        </b:if>
+      </div>
+    </b:if>
+  <b:else/>
+    <div class='inline-ad'>
+      <div class='inline-ad-placeholder'>
+        <span><b:message name='messages.adsGoHere'/></span>
+      </div>
+    </div>
+  </b:if>
+</b:includable>
+              <b:includable id='nextPageLink'>
+  <a class='blog-pager-older-link' expr:href='data:olderPageUrl' expr:id='data:widget.instanceId + &quot;_blog-pager-older-link&quot;' expr:title='data:messages.olderPosts'>
+    <data:messages.olderPosts/>
+  </a>
+</b:includable>
+              <b:includable id='post' var='post'>
+  <div class='post'>
+    <b:include data='post' name='postMeta'/>
+    <b:include data='post' name='postTitle'/>
+    <b:include name='headerByline'/>
+    <b:if cond='data:view.isSingleItem'>
+      <b:include data='post' name='postBody'/>
+    <b:else/>
+      <b:include data='post' name='postBodySnippet'/>
+      <b:include data='post' name='postJumpLink'/>
+    </b:if>
+    <b:include data='post' name='postFooter'/>
+  </div>
+</b:includable>
+              <b:includable id='postBody' var='post'>
+  <!-- If metaDescription is empty, use the post body as the schema.org description too, for G+/FB snippeting. -->
+  <div class='post-body entry-content float-container' expr:id='&quot;post-body-&quot; + data:post.id'>
+    <data:post.body/>
+  </div>
+</b:includable>
+              <b:includable id='postBodySnippet' var='post'>
+  <b:include data='post' name='postBody'/>
+</b:includable>
+              <b:includable id='postCommentsAndAd' var='post'>
+  <article class='post-outer-container'>
+    <!-- Post title and body -->
+    <div class='post-outer'>
+      <b:include data='post' name='post'/>
+    </div>
+
+    <!-- Comments -->
+    <b:include cond='data:view.isSingleItem' data='post' name='commentPicker'/>
+
+    <!-- Show ad inside post container, after comments, if single item. -->
+    <b:include cond='data:view.isSingleItem and data:post.includeAd' data='post' name='inlineAd'/>
+  </article>
+
+  <!-- Show ad outside post container (between posts) for feed pages. -->
+  <b:include cond='data:view.isMultipleItems and data:post.includeAd' data='post' name='inlineAd'/>
+</b:includable>
+              <b:includable id='postCommentsLink'>
+  <b:if cond='data:view.isMultipleItems'>
+    <span class='byline post-comment-link container'>
+      <b:include cond='data:post.commentSource != 1' name='commentsLink'/>
+    </span>
+  </b:if>
+</b:includable>
+              <b:includable id='postFooter' var='post'>
+  <div class='post-footer'>
+    <b:include name='footerBylines'/>
+    <b:include data='post' name='postFooterAuthorProfile'/>
+  </div>
+</b:includable>
+              <b:includable id='postFooterAuthorProfile' var='post'>
+  <b:if cond='data:post.author.aboutMe and data:view.isPost'>
+    <div class='author-profile'>
+      <b:if cond='data:post.author.authorPhoto.url'>
+        <img class='author-image' expr:src='data:post.author.authorPhoto.url' width='50px'/>
+        <div class='author-about'>
+          <b:include data='post' name='aboutPostAuthor'/>
+        </div>
+      <b:else/>
+        <b:include data='post' name='aboutPostAuthor'/>
+      </b:if>
+    </div>
+  </b:if>
+</b:includable>
+              <b:includable id='postHeader' var='post'>
+  <b:include name='headerByline'/>
+</b:includable>
+              <b:includable id='postMeta' var='post'>
+  <b:include data='post' name='postMetadataJSON'/>
+</b:includable>
+              <b:includable id='postPagination'>
+  <div class='blog-pager container' id='blog-pager'>
+    <b:include cond='data:newerPageUrl' name='previousPageLink'/>
+    <b:include cond='data:olderPageUrl' name='nextPageLink'/>
+    <b:include cond='data:view.url != data:blog.homepageUrl' name='homePageLink'/>
+  </div>
+</b:includable>
+              <b:includable id='postTitle' var='post'>
+  <a expr:name='data:post.id'/>
+  <b:if cond='data:post.title != &quot;&quot;'>
+    <h3 class='post-title entry-title'>
+      <b:if cond='data:post.link or (data:post.url and data:view.url != data:post.url)'>
+        <a expr:href='data:post.link ?: data:post.url'><data:post.title/></a>
+      <b:else/>
+        <data:post.title/>
+      </b:if>
+    </h3>
+  </b:if>
+</b:includable>
+              <b:includable id='previousPageLink'>
+  <a class='blog-pager-newer-link' expr:href='data:newerPageUrl' expr:id='data:widget.instanceId + &quot;_blog-pager-newer-link&quot;' expr:title='data:messages.newerPosts'>
+    <data:messages.newerPosts/>
+  </a>
+</b:includable>
+              <b:includable id='threadedCommentForm' var='post'>
+  <div class='comment-form'>
+    <a name='comment-form'/>
+    <h4 id='comment-post-message'><data:messages.postAComment/></h4>
+    <b:if cond='data:this.messages.blogComment != &quot;&quot;'>
+      <p><data:this.messages.blogComment/></p>
+    </b:if>
+    <b:include data='post' name='commentFormIframeSrc'/>
+    <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>
+    <data:post.cmtfpIframe/>
+    <script type='text/javascript'>
+      BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);
+    </script>
+  </div>
+</b:includable>
+              <b:includable id='threadedCommentJs' var='post'>
+  <script async='async' expr:src='data:post.commentSrc' type='text/javascript'/>
+  <b:template-script inline='true' name='threaded_comments'/>
+  <script type='text/javascript'>
+    blogger.widgets.blog.initThreadedComments(
+        <data:post.commentJso/>,
+        <data:post.commentMsgs/>,
+        <data:post.commentConfig/>);
+  </script>
+</b:includable>
+              <b:includable id='threadedComments' var='post'>
+  <section class='comments threaded' expr:data-embed='data:post.embedCommentForm' expr:data-num-comments='data:post.numberOfComments' id='comments'>
+    <a name='comments'/>
+
+    <b:include name='commentsTitle'/>
+
+    <div class='comments-content'>
+      <b:if cond='data:post.embedCommentForm'>
+        <b:include data='post' name='threadedCommentJs'/>
+      </b:if>
+      <div id='comment-holder'>
+         <data:post.commentHtml/>
+      </div>
+    </div>
+
+    <p class='comment-footer'>
+      <b:if cond='data:post.allowNewComments'>
+        <b:include data='post' name='threadedCommentForm'/>
+      <b:else/>
+        <data:post.noNewCommentsText/>
+      </b:if>
+      <b:if cond='data:post.showManageComments'>
+        <b:include data='post' name='manageComments'/>
+      </b:if>
+    </p>
+
+    <b:if cond='data:showCmtPopup'>
+      <div id='comment-popup'>
+        <iframe allowtransparency='allowtransparency' frameborder='0' id='comment-actions' name='comment-actions' scrolling='no'>
+        </iframe>
+      </div>
+    </b:if>
+  </section>
+</b:includable>
+              <b:includable id='tooltipCss'>
+  <!-- LINT.IfChange -->
+  <style>
+    .post-body a.b-tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .post-body a.b-tooltip-container .b-tooltip {
+      display: block !important;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-20%, 1px);
+      visibility: hidden;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .post-body a.b-tooltip-container .b-tooltip iframe {
+      width: 200px;
+      height: 198px;
+      max-width: none;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (hover: hover) {
+      .post-body a.b-tooltip-container:hover .b-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  </style>
+  <!-- LINT.ThenChange(//depot/google3/java/com/google/blogger/b2/layouts/widgets/v2-style.css) -->
+</b:includable>
+            </b:widget>
+          </b:section>
+        </article>
+        <aside class='sidebar-area'><b:section id='sidebar-internal' showaddelement='yes'/></aside>
+      </main>
+    </b:if>
+
+    <!-- BERANDA: KONSEP ZEBRA LENGKAP -->
+    <b:if cond='data:view.isHomepage'>
+      
+      <div class='main-wrapper'>
+        <main class='content-area'><b:section id='grid-1' showaddelement='yes'>
+  <b:widget id='HTML4' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- GRID 1: SMART HEADLINE 2025 --- */
+.wc-headline-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    background: #ffffff; /* Dasar putih */
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* KOTAK GAMBAR */
+.wc-h-img-box {
+    position: relative;
+    width: 100%;
+    height: 420px; /* Tinggi Desktop */
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.wc-h-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s ease;
+}
+
+/* BADGE: POSISI ATAS KIRI & WARNA LEMBUT */
+.wc-h-badge {
+    position: absolute;
+    top: 20px; 
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9); /* Putih transparan lembut */
+    color: #001ba0; /* Teks biru logo */
+    padding: 6px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: capitalize;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* OVERLAY DESKTOP: JUDUL DI ATAS GAMBAR */
+.wc-h-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 50px 25px 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    z-index: 5;
+}
+
+.wc-h-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    letter-spacing: -0.5px;
+}
+
+.wc-headline-wrapper:hover img { transform: scale(1.05); }
+
+/* --- RESPONSIVE LOGIC (KHUSUS HP) --- */
+@media (max-width: 768px) {
+    .wc-h-img-box { height: 240px; border-radius: 18px; } /* Gambar memendek */
+    
+    .wc-h-content { 
+        position: relative; /* JUDUL TURUN KE BAWAH GAMBAR */
+        background: transparent; 
+        padding: 15px 5px; 
+    }
+    
+    .wc-h-title { 
+        color: #222222; /* Teks jadi hitam agar terbaca di background putih */
+        font-size: 22px; 
+    }
+
+    .wc-h-badge {
+        top: 15px;
+        left: 15px;
+        padding: 4px 12px;
+        font-size: 11px;
+    }
+}
+</style>
+
+<div id="headline-grid-final">
+    <!-- Konten akan dimuat otomatis -->
+</div>
+
+<script>
+(function() {
+    var labelTujuan = "Headline"; // Pastikan label di artikel Pak Boss sama
+    
+    var s = document.createElement('script');
+    s.src = '/feeds/posts/summary/-/' + labelTujuan + '?alt=json-in-script&max-results=1&callback=showSmartHeadline';
+    document.body.appendChild(s);
+})();
+
+function showSmartHeadline(json) {
+    var entry = json.feed.entry;
+    var box = document.getElementById('headline-grid-final');
+    if (entry) {
+        var post = entry[0];
+        var title = post.title.$t;
+        var link = post.link.find(l => l.rel === 'alternate').href;
+        var thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's1600') : 'https://placeholder.com';
+        
+        box.innerHTML = `
+            <div class="wc-headline-wrapper">
+                <div class="wc-h-img-box">
+                    <span class="wc-h-badge">Headline</span>
+                    <a href="${link}"><img src="${thumb}" alt="${title}"/></a>
+                </div>
+                <div class="wc-h-content">
+                    <a href="${link}" class="wc-h-title">${title}</a>
+                </div>
+            </div>
+        `;
+    }
+}
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+  <b:widget id='HTML7' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- GRID 2: LATEST NEWS (3x2 & 2x3) --- */
+.wc-grid2-wrapper {
+    display: grid;
+    /* DESKTOP: 3 Kolom */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.wc-g2-item {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* GAMBAR: SUDUT BULAT PRESISI */
+.wc-g2-thumb {
+    width: 100%;
+    height: 150px;
+    border-radius: 16px; /* Samakan dengan kebulatan headline */
+    overflow: hidden;
+    background: #f0f0f0;
+    margin-bottom: 12px;
+}
+
+.wc-g2-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+/* JUDUL BERITA */
+.wc-g2-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #222;
+    margin: 0 0 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* LABEL: BIRU & HURUF BESAR (Sesuai Sidebar) */
+.wc-g2-tag {
+    font-size: 11px;
+    font-weight: 800;
+    color: #001ba0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* EFEK HOVER */
+.wc-g2-item:hover .wc-g2-thumb img { transform: scale(1.1); }
+.wc-g2-item:hover .wc-g2-title { color: #001ba0; }
+
+/* --- RESPONSIVE HP: 2 Kolom x 3 Baris --- */
+@media (max-width: 768px) {
+    .wc-grid2-wrapper {
+        grid-template-columns: repeat(2, 1fr); /* 2 Kolom menyamping */
+        gap: 15px;
+    }
+    .wc-g2-thumb { height: 110px; border-radius: 12px; }
+    .wc-g2-title { font-size: 13px; -webkit-line-clamp: 2; }
+}
+</style>
+
+<div class="wc-grid2-wrapper" id="latest-news-target">
+    <!-- 6 Berita terbaru akan muncul di sini -->
+</div>
+
+<script>
+(function() {
+    var limitBerita = 6; // Menampilkan 6 berita (3x2)
+    
+    fetch('/feeds/posts/summary?alt=json&max-results=' + limitBerita)
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        json.feed.entry.forEach(post => {
+            let title = post.title.$t;
+            let link = post.link.find(l => l.rel === 'alternate').href;
+            let tag = post.category ? post.category[0].term : 'News';
+            let img = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's600') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-g2-item">
+                    <div class="wc-g2-thumb">
+                        <img src="${img}" alt="${title}"/>
+                    </div>
+                    <h4 class="wc-g2-title">${title}</h4>
+                    <span class="wc-g2-tag">${tag}</span>
+                </a>
+            `;
+        });
+        document.getElementById('latest-news-target').innerHTML = html;
+    });
+})();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></main>
+        <aside class='sidebar-area'><b:section id='side-1' showaddelement='yes'>
+  <b:widget id='HTML9' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<script>
+/* SCRIPT PENGIKAT SIDEBAR (TANPA EDIT HTML) */
+(function() {
+  const gayaSticky = `
+    .sidebar-area {
+      position: -webkit-sticky !important;
+      position: sticky !important;
+      top: 140px !important; /* Jarak pas di bawah navigasi Pak Boss */
+      align-self: flex-start !important;
+      height: fit-content !important;
+    }
+    @media (max-width: 768px) {
+      .sidebar-area { position: relative !important; top: 0 !important; }
+    }
+  `;
+
+  // Menanamkan gaya ke dalam blog secara otomatis
+  const styleTag = document.createElement('style');
+  styleTag.innerHTML = gayaSticky;
+  document.head.appendChild(styleTag);
+})();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+  <b:widget id='HTML6' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- KOREKSI SIDEBAR: POPULER NUMBERED --- */
+.wc-side-pop {
+    background: #ffffff;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.wc-side-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Garis hiasan kecil di depan judul Populer */
+.wc-side-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: #001ba0;
+    border-radius: 2px;
+}
+
+.wc-pop-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 22px;
+    text-decoration: none;
+    align-items: flex-start;
+}
+
+/* Angka Lingkaran */
+.wc-pop-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    background: #f0f0f0;
+    color: #555;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    transition: 0.3s;
+}
+
+.wc-pop-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wc-pop-link-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #222;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-pop-tag {
+    font-size: 10px;
+    font-weight: 800;
+    color: #001ba0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Efek Hover */
+.wc-pop-item:hover .wc-pop-num {
+    background: #001ba0;
+    color: #fff;
+    transform: scale(1.1);
+}
+.wc-pop-item:hover .wc-pop-link-title {
+    color: #001ba0;
+}
+
+.wc-see-more {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #001ba0;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+</style>
+
+<div class="wc-side-pop">
+    <div class="wc-side-title">Populer</div>
+    <div id="populer-list-target">
+        <!-- List Angka Muncul Di Sini -->
+    </div>
+    <a href="/search" class="wc-see-more">populer lainnya &rsaquo;</a>
+</div>
+
+<script>
+(function() {
+    // Logika: Ambil 5 berita terbaru sebagai simulasi populer mingguan
+    fetch('/feeds/posts/summary?alt=json&max-results=5')
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        json.feed.entry.forEach((post, index) => {
+            let title = post.title.$t;
+            let link = post.link.find(l => l.rel === 'alternate').href;
+            let tag = post.category ? post.category[0].term : 'News';
+            let num = index + 1;
+            
+            html += `
+                <a href="${link}" class="wc-pop-item">
+                    <div class="wc-pop-num">${num}</div>
+                    <div class="wc-pop-text">
+                        <h4 class="wc-pop-link-title">${title}</h4>
+                        <span class="wc-pop-tag">${tag}</span>
+                    </div>
+                </a>
+            `;
+        });
+        document.getElementById('populer-list-target').innerHTML = html;
+    });
+})();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></aside>
+      </div>
+
+      <div class='main-wrapper'>
+        <main class='content-area'><b:section id='grid-2' showaddelement='yes'>
+  <b:widget id='HTML5' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- GRID 2: MULTI-POST LATEST 2025 --- */
+.wc-grid2-container {
+    display: grid;
+    /* DESKTOP: 3 Kolom */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.wc-grid2-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* GAMBAR SUDUT BULAT SESUAI GAMBAR */
+.wc-g2-img-box {
+    width: 100%;
+    height: 140px; /* Tinggi proporsional */
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f0f0f0;
+    margin-bottom: 12px;
+}
+
+.wc-g2-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+/* JUDUL BERITA TEGAS */
+.wc-g2-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #222;
+    margin: 0 0 8px 0;
+    /* Batasi 3 baris teks agar rapi */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* LABEL/KATEGORI DI BAWAH */
+.wc-g2-label {
+    font-size: 12px;
+    color: #001ba0; /* Warna biru brand */
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.wc-grid2-card:hover .wc-g2-img-box img { transform: scale(1.08); }
+.wc-grid2-card:hover .wc-g2-title { color: #001ba0; }
+
+/* --- RESPONSIVE HP: 2 Kolom x 3 Baris --- */
+@media (max-width: 768px) {
+    .wc-grid2-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 Kolom sesuai gambar */
+        gap: 15px;
+    }
+    .wc-g2-img-box { height: 110px; border-radius: 10px; }
+    .wc-g2-title { font-size: 13px; -webkit-line-clamp: 2; }
+}
+</style>
+
+<div class="wc-grid2-container" id="latest-posts-grid2">
+    <!-- 6 Berita Terbaru akan muncul di sini -->
+</div>
+
+<script>
+(function() {
+    var maxBerita = 6; // Ambil 6 berita (3x2 atau 2x3)
+    
+    var s = document.createElement('script');
+    // Ambil dari feed umum (semua label)
+    s.src = '/feeds/posts/summary?alt=json-in-script&max-results=' + maxBerita + '&callback=renderGrid2';
+    document.body.appendChild(s);
+})();
+
+function renderGrid2(json) {
+    var entries = json.feed.entry;
+    var container = document.getElementById('latest-posts-grid2');
+    var html = '';
+    
+    if (entries) {
+        for (var i = 0; i < entries.length; i++) {
+            var post = entries[i];
+            var title = post.title.$t;
+            var link = post.link.find(l => l.rel === 'alternate').href;
+            var label = post.category ? post.category[0].term : 'News'; // Ambil label pertama
+            var thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's400') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-grid2-card">
+                    <div class="wc-g2-img-box">
+                        <img src="${thumb}" alt="${title}"/>
+                    </div>
+                    <h4 class="wc-g2-title">${title}</h4>
+                    <span class="wc-g2-label">${label}</span>
+                </a>
+            `;
+        }
+        container.innerHTML = html;
+    }
+}
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></main>
+        <aside class='sidebar-area'><b:section id='side-2' showaddelement='yes'>
+  <b:widget id='HTML8' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- SIDEBAR 2: LIST PENULIS (1x6) --- */
+.wc-side2-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Jarak antar baris */
+    background: #ffffff;
+    padding: 10px 0;
+}
+
+.wc-side2-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* GAMBAR KECIL DI KIRI */
+.wc-side2-img {
+    flex-shrink: 0;
+    width: 85px;
+    height: 65px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.wc-side2-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* KONTEN TEKS DI KANAN */
+.wc-side2-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wc-side2-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #222;
+    margin: 0;
+    /* Maksimal 2 baris agar tidak kepanjangan */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-side2-author {
+    font-size: 12px;
+    color: #777;
+    font-weight: 500;
+}
+
+/* Efek Hover */
+.wc-side2-item:hover .wc-side2-title { color: #001ba0; }
+.wc-side2-item:hover .wc-side2-img img { opacity: 0.8; }
+
+@media (max-width: 768px) {
+    .wc-side2-img { width: 75px; height: 60px; }
+    .wc-side2-title { font-size: 13px; }
+}
+</style>
+
+<div class="wc-side2-container" id="sidebar2-list-target">
+    <!-- 6 Postingan akan muncul di sini -->
+</div>
+
+<script>
+(function() {
+    var jumlahSide = 6; // Menampilkan 6 baris (1x6)
+    
+    fetch('/feeds/posts/summary?alt=json&max-results=' + jumlahSide)
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        json.feed.entry.forEach(post => {
+            let title = post.title.$t;
+            let link = post.link.find(l => l.rel === 'alternate').href;
+            let author = post.author[0].name.$t; // Mengambil nama penulis asli
+            let thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's200') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-side2-item">
+                    <div class="wc-side2-img">
+                        <img src="${thumb}" alt="${title}"/>
+                    </div>
+                    <div class="wc-side2-info">
+                        <h4 class="wc-side2-title">${title}</h4>
+                        <span class="wc-side2-author">Oleh: ${author}</span>
+                    </div>
+                </a>
+            `;
+        });
+        document.getElementById('sidebar2-list-target').innerHTML = html;
+    });
+})();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></aside>
+      </div>
+
+      <div class='grid-full'><div class='container'><b:section id='grid-foto' showaddelement='yes'>
+  <b:widget id='HTML10' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- GRID FOTO OVERFLOW PREMIUM --- */
+.wc-foto-full {
+    background: #ffffff; /* Kembali ke putih agar bersih sesuai gambar */
+    padding: 30px 0;
+    margin: 20px 0;
+    width: 100%;
+    border-top: 1px solid #f0f0f0;
+}
+
+.wc-foto-header {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    padding: 0 20px;
+}
+
+.wc-foto-scroll-wrapper {
+    display: flex;
+    overflow-x: auto; /* Kunci rahasia: Bisa digeser */
+    scroll-snap-type: x mandatory;
+    padding: 0 20px 20px 20px;
+    gap: 20px;
+    scrollbar-width: none; /* Hilangkan scrollbar di Firefox */
+}
+
+.wc-foto-scroll-wrapper::-webkit-scrollbar { display: none; } /* Hilangkan scrollbar di Chrome/Safari */
+
+.wc-foto-item {
+    flex: 0 0 23%; /* Tampil 4 item di desktop (kira-kira 25% per item) */
+    min-width: 250px;
+    scroll-snap-align: start;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Gambar Sesuai Referensi */
+.wc-f-thumb {
+    width: 100%;
+    height: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #f5f5f5;
+}
+
+.wc-f-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Konten Teks */
+.wc-f-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #222;
+    text-transform: uppercase; /* Judul huruf besar semua sesuai gambar */
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.wc-f-snippet {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-f-date {
+    font-size: 11px;
+    color: #bbb;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .wc-foto-item {
+        flex: 0 0 70%; /* Tampil 1.5 item di HP agar terlihat bisa digeser */
+        min-width: 240px;
+    }
+}
+</style>
+
+<div class="wc-foto-full">
+    <div class="wc-foto-header">
+        <h3 style="font-size: 20px; font-weight: 800; color: #333;">Galeri Foto</h3>
+    </div>
+    <div class="wc-foto-scroll-wrapper" id="foto-overflow-target">
+        <!-- 8 Item muncul otomatis di sini -->
+    </div>
+</div>
+
+<script>
+(function() {
+    var labelKategori = "Foto"; 
+    var totalBerita = 8; 
+    
+    fetch('/feeds/posts/summary/-/' + labelKategori + '?alt=json&max-results=' + totalBerita)
+    .then(res => res.json())
+    .then(json => {
+        if (!json.feed.entry) {
+            // Jika label Foto tidak ada, ambil berita terbaru apa saja
+            return fetch('/feeds/posts/summary?alt=json&max-results=' + totalBerita).then(res => res.json());
+        }
+        return json;
+    })
+    .then(json => {
+        let html = '';
+        json.feed.entry.forEach(post => {
+            let title = post.title.$t;
+            let link = post.link.find(l => l.rel === 'alternate').href;
+            let snippet = post.summary.$t.substring(0, 100); // Ambil ringkasan pendek
+            let date = new Date(post.published.$t).toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
+            let thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's600') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-foto-item">
+                    <div class="wc-f-thumb"><img src="${thumb}" alt="${title}"/></div>
+                    <h4 class="wc-f-title">${title}</h4>
+                    <p class="wc-f-snippet">${snippet}...</p>
+                    <span class="wc-f-date">${date} WIB</span>
+                </a>
+            `;
+        });
+        document.getElementById('foto-overflow-target').innerHTML = html;
+    });
+})();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></div></div>
+      <div class='grid-full'><div class='container'><b:section id='grid-video' showaddelement='yes'>
+  <b:widget id='HTML11' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- GRID VIDEO OVERFLOW PREMIUM --- */
+.wc-video-full {
+    background: #ffffff;
+    padding: 30px 0;
+    margin: 20px 0;
+    width: 100%;
+    border-top: 1px solid #f0f0f0;
+}
+
+.wc-video-header {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    padding: 0 20px;
+}
+
+.wc-video-scroll-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 20px 20px 20px;
+    gap: 20px;
+    scrollbar-width: none;
+}
+
+.wc-video-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+.wc-video-item {
+    flex: 0 0 23%; /* Tampil 4 item di desktop */
+    min-width: 250px;
+    scroll-snap-align: start;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Kotak Thumbnail dengan Ikon Play */
+.wc-v-thumb {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #000;
+}
+
+.wc-v-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: 0.5s;
+}
+
+/* Ikon Play Modern */
+.wc-v-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45px; height: 45px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.wc-v-play svg {
+    width: 20px; height: 20px;
+    fill: #001ba0; /* Warna biru logo pak boss */
+    margin-left: 3px; /* Penyesuaian agar posisi segitiga pas di tengah */
+}
+
+/* Konten Teks Sesuai Gambar Referensi */
+.wc-v-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #222;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.wc-v-snippet {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-v-date {
+    font-size: 11px;
+    color: #bbb;
+    font-weight: 600;
+}
+
+/* Efek Hover */
+.wc-video-item:hover .wc-v-thumb img { transform: scale(1.1); opacity: 0.7; }
+.wc-video-item:hover .wc-v-play { background: #001ba0; transform: translate(-50%, -50%) scale(1.1); }
+.wc-video-item:hover .wc-v-play svg { fill: #ffffff; }
+
+@media (max-width: 768px) {
+    .wc-video-item { flex: 0 0 70%; min-width: 240px; }
+}
+</style>
+
+<div class="wc-video-full">
+    <div class="wc-video-header">
+        <h3 style="font-size: 20px; font-weight: 800; color: #333;">Video Terkini</h3>
+    </div>
+    <div class="wc-video-scroll-wrapper" id="video-overflow-target">
+        <!-- 8 Video muncul otomatis di sini -->
+    </div>
+</div>
+
+<script>
+(function() {
+    var labelVideo = "Video"; 
+    var totalVideo = 8; 
+    
+    fetch('/feeds/posts/summary/-/' + labelVideo + '?alt=json&max-results=' + totalVideo)
+    .then(res => res.json())
+    .then(json => {
+        if (!json.feed.entry) {
+            // Jika label Video tidak ada, ambil berita terbaru apa saja sebagai demo
+            return fetch('/feeds/posts/summary?alt=json&max-results=' + totalVideo).then(res => res.json());
+        }
+        return json;
+    })
+    .then(json => {
+        let html = '';
+        json.feed.entry.forEach(post => {
+            let title = post.title.$t;
+            let link = post.link.find(l => l.rel === 'alternate').href;
+            let snippet = post.summary.$t.substring(0, 100);
+            let date = new Date(post.published.$t).toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
+            let thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's600') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-video-item">
+                    <div class="wc-v-thumb">
+                        <img src="${thumb}" alt="${title}"/>
+                        <div class="wc-v-play">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <h4 class="wc-v-title">${title}</h4>
+                    <p class="wc-v-snippet">${snippet}...</p>
+                    <span class="wc-v-date">${date} WIB</span>
+                </a>
+            `;
+        });
+        document.getElementById('video-overflow-target').innerHTML = html;
+    });
+})();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></div></div>
+
+      <div class='main-wrapper'>
+        <main class='content-area'><b:section id='grid-3' showaddelement='yes'>
+  <b:widget id='HTML12' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- GRID 3: LIST 1x6 --- */
+.wc-grid3-final { display: flex; flex-direction: column; gap: 20px; background: #ffffff; min-height: 600px; }
+
+.wc-g3-item { display: flex; align-items: flex-start; gap: 18px; text-decoration: none; transition: 0.3s; padding-bottom: 5px; }
+
+.wc-g3-img { flex-shrink: 0; width: 170px; height: 110px; border-radius: 12px; overflow: hidden; background: #f5f5f5; }
+.wc-g3-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.wc-g3-content { display: flex; flex-direction: column; gap: 6px; }
+.wc-g3-title { font-size: 17px; font-weight: 700; line-height: 1.4; color: #222; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wc-g3-meta { font-size: 12px; color: #888; font-weight: 600; }
+.wc-g3-label { color: #001ba0; text-transform: capitalize; }
+
+/* --- PAGINATION BULAT (SESUAI GAMBAR) --- */
+.wc-pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 40px; padding-bottom: 20px; }
+
+.wc-page-num {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid #ddd;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 14px; font-weight: 600; color: #555;
+    transition: 0.3s; background: #fff;
+}
+
+.wc-page-num.aktif {
+    background: #001ba0; color: #fff; border-color: #001ba0;
+}
+
+.wc-page-num:hover:not(.aktif) { background: #f0f0f0; border-color: #bbb; }
+
+.wc-page-next { font-size: 18px; color: #999; cursor: pointer; padding: 0 5px; }
+
+@media (max-width: 768px) {
+    .wc-g3-img { width: 130px; height: 85px; }
+    .wc-g3-title { font-size: 14px; }
+    .wc-grid3-final { min-height: auto; }
+}
+</style>
+
+<!-- TEMPAT BERITA MUNCUL -->
+<div id="grid3-render-area" class="wc-grid3-final">
+    <!-- Konten dimuat lewat JS -->
+</div>
+
+<!-- NAVIGASI ANGKA (PAGINATION) -->
+<div class="wc-pagination" id="wc-pagination-box">
+    <!-- Tombol 1, 2, 3 muncul di sini -->
+</div>
+
+<script>
+var totalBeritaPerHal = 6;
+var halamanSekarang = 1;
+
+function muatBeritaGrid3(page) {
+    halamanSekarang = page;
+    var startIndex = ((page - 1) * totalBeritaPerHal) + 1;
+    var targetArea = document.getElementById('grid3-render-area');
+    
+    // Efek loading simpel
+    targetArea.style.opacity = '0.5';
+    
+    fetch('/feeds/posts/summary?alt=json&start-index=' + startIndex + '&max-results=' + totalBeritaPerHal)
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        if (json.feed.entry) {
+            json.feed.entry.forEach(post => {
+                let title = post.title.$t;
+                let link = post.link.find(l => l.rel === 'alternate').href;
+                let tag = post.category ? post.category[0].term : 'News';
+                let thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's400') : 'https://placeholder.com';
+                
+                let pubDate = new Date(post.published.$t);
+                let diff = Math.floor((new Date() - pubDate) / (1000 * 60 * 60));
+                let timeStr = diff < 1 ? "Baru saja" : diff + " jam lalu";
+                if(diff > 24) timeStr = Math.floor(diff/24) + " hari lalu";
+
+                html += `
+                    <a href="${link}" class="wc-g3-item">
+                        <div class="wc-g3-img"><img src="${thumb}" alt="${title}"/></div>
+                        <div class="wc-g3-content">
+                            <h4 class="wc-g3-title">${title}</h4>
+                            <div class="wc-g3-meta">
+                                <span class="wc-g3-label">${tag}</span> • <span>${timeStr}</span>
+                            </div>
+                        </div>
+                    </a>`;
+            });
+            targetArea.innerHTML = html;
+            targetArea.style.opacity = '1';
+            updatePaginationButtons();
+            // Scroll halus ke atas Grid 3 saat ganti halaman
+            if(page > 1) targetArea.scrollIntoView({behavior: "smooth", block: "start"});
+        }
+    });
+}
+
+function updatePaginationButtons() {
+    var navBox = document.getElementById('wc-pagination-box');
+    var html = '';
+    
+    // Kita buat 3 halaman pertama sebagai contoh (Blogger API tidak memberi total post secara instan)
+    for (var i = 1; i <= 3; i++) {
+        var statusAktif = (i === halamanSekarang) ? 'aktif' : '';
+        html += `<div class="wc-page-num ${statusAktif}" onclick="muatBeritaGrid3(${i})">${i}</div>`;
+    }
+    
+    html += `<div class="wc-page-next" onclick="muatBeritaGrid3(${halamanSekarang + 1})"> &rsaquo; </div>`;
+    navBox.innerHTML = html;
+}
+
+// Jalankan pertama kali
+muatBeritaGrid3(1);
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></main>
+        <aside class='sidebar-area'><b:section id='side-3' showaddelement='yes'>
+  <b:widget id='HTML13' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+.wc-side3-box { background: #f9f9f9; padding: 25px; border-radius: 20px; text-align: center; }
+.wc-side3-title { font-size: 16px; font-weight: 800; color: #333; margin-bottom: 15px; display: block; }
+.wc-side3-desc { font-size: 13px; color: #777; margin-bottom: 20px; line-height: 1.5; }
+
+/* Tombol Subscribe Simpel */
+.wc-sub-form { display: flex; flex-direction: column; gap: 10px; }
+.wc-sub-input { padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; font-size: 13px; }
+.wc-sub-btn { background: #001ba0; color: #fff; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.wc-sub-btn:hover { background: #000; }
+</style>
+
+<div class="wc-side3-box">
+    <span class="wc-side3-title">Langganan Berita</span>
+    <p class="wc-side3-desc">Dapatkan informasi terkini langsung ke email Anda setiap hari.</p>
+    <div class="wc-sub-form">
+        <input type="email" class="wc-sub-input" placeholder="Alamat Email Anda..." />
+        <button class="wc-sub-btn">Gabung Sekarang</button>
+    </div>
+</div>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></aside>
+      </div>
+
+    </b:if>
+  </div>
+
+  <footer><div class='container'><b:section id='footer-section' maxwidgets='1' showaddelement='yes'>
+  <b:widget id='HTML14' locked='false' title='' type='HTML' visible='true'>
+    <b:widget-settings>
+      <b:widget-setting name='content'><![CDATA[<style>
+/* --- MASTER FOOTER WARTACREATIVE 2026 --- */
+.wc-footer-global {
+    background: #ffffff;
+    padding: 60px 0 30px;
+    border-top: 1px solid #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+}
+
+.wc-f-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- TAMPILAN DESKTOP (KOLOM) --- */
+.wc-f-desktop-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.wc-f-col { flex: 1; min-width: 150px; }
+.wc-f-col-brand { flex: 1.5; min-width: 250px; }
+
+.wc-f-logo-img { height: 45px; width: auto; display: block; margin-bottom: 20px; }
+.wc-f-col h4 { font-size: 13px; font-weight: 800; color: #333; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+.wc-f-ul { list-style: none; padding: 0; margin: 0; }
+.wc-f-ul li { margin-bottom: 12px; }
+.wc-f-ul a { text-decoration: none; color: #777; font-size: 14px; transition: 0.2s; }
+.wc-f-ul a:hover { color: #001ba0; padding-left: 5px; }
+
+/* --- TAMPILAN MOBILE (AUTO-HIDE) --- */
+.wc-f-mobile-links {
+    display: none; /* Sembunyi di desktop */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 15px;
+    margin-bottom: 25px;
+    padding: 0 10px;
+    text-align: center;
+}
+.wc-f-mobile-links a { text-decoration: none; color: #666; font-size: 13px; font-weight: 600; }
+.wc-f-mobile-links span { color: #ddd; font-size: 10px; }
+
+/* --- SOSMED BERWARNA PREMIUM --- */
+.wc-f-soc-title { font-size: 11px; font-weight: 800; color: #bbb; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+.wc-f-soc-flex { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+.wc-f-soc-item {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; transition: 0.3s;
+}
+/* Warna Ikon Sesuai Brand */
+.wa-c{background:#25D366}.fb-c{background:#1877f2}.x-c{background:#000}.ig-c{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}.in-c{background:#0077b5}.yt-c{background:#ff0000}.tk-c{background:#000}
+.wc-f-soc-item svg { width: 18px; height: 18px; fill: #fff; }
+
+/* COPYRIGHT */
+.wc-f-copyright { width: 100%; margin-top: 40px; padding: 25px 20px; border-top: 1px solid #f5f5f5; text-align: center; font-size: 12px; color: #bbb; }
+
+/* --- LOGIKA RESPONSIVE HP --- */
+@media screen and (max-width: 800px) {
+    /* Sembunyikan kolom desktop */
+    .wc-f-desktop-wrap .wc-f-col:not(.wc-f-col-brand) { display: none !important; }
+    
+    /* Aktifkan link mobile */
+    .wc-f-mobile-links { display: flex !important; }
+    
+    /* Layout Center */
+    .wc-f-col-brand { width: 100% !important; text-align: center !important; }
+    .wc-f-logo-img { height: 30px !important; margin: 0 auto 20px !important; }
+    .wc-f-soc-flex { justify-content: center !important; }
+    .wc-f-soc-title { display: none; }
+}
+</style>
+
+<footer class="wc-footer-global">
+    <div class="wc-f-container">
+        
+        <div class="wc-f-desktop-wrap">
+            <!-- KOLOM 1: BRAND (SELALU MUNCUL) -->
+            <div class="wc-f-col-brand">
+                <a href="/"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5iUBxQcCBbH4NziDZNrVxyeDbavjxX2cJk0nhYeARl1wBH_iS7KF9WLekIG531nBWA6OMNrENZjcZzLu-z-H3dD_1Qd4uqwhSOUVto4sq0Le_yg5l2zwrDKtEfpqOc_PGIHCxWaWn0t8qVFJ-GGEXYPngWN3iblHSfUXA3vdTw6Rlf6Y/s1600/logowa.png" class="wc-f-logo-img" alt="wartacreative"/></a>
+
+                <!-- LINK KHUSUS HP (8 HALAMAN) -->
+                <div class="wc-f-mobile-links">
+                    <a href="/p/redaksi.html">Redaksi</a> <span>•</span>
+                    <a href="/p/pedoman-media-siber.html">Pedoman Media Siber</a> <span>•</span>
+                    <a href="/p/karir.html">Karir</a> <span>•</span>
+                    <a href="/p/kontak.html">Kotak Pos</a> <span>•</span>
+                    <a href="/p/info-iklan.html">Info Iklan</a> <span>•</span>
+                    <a href="/p/privacy-policy.html">Privacy Policy</a> <span>•</span>
+                    <a href="/p/disclaimer.html">Disclaimer</a> <span>•</span>
+                    <a href="/p/sitemap.html">Peta Situs</a>
+                </div>
+
+                <div class="wc-f-soc-title">Ikuti Kami</div>
+                <div class="wc-f-soc-flex">
+                    <a href="https://wa.me" target="_blank" class="wc-f-soc-item wa-c"><svg viewbox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.89 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.743-.981z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item fb-c"><svg viewbox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item x-c"><svg viewbox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.494h2.039L6.486 3.24H4.298l13.311 17.407z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item ig-c"><svg viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item in-c"><svg viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item yt-c"><svg viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item tk-c"><svg viewbox="0 0 24 24"><path d="M12.525.02c1.31-.036 2.612.012 3.914-.02.28 2.443 1.445 4.488 3.66 5.474v3.207c-1.496-.068-2.813-.493-3.916-1.167.03 2.263.044 4.526.046 6.789 0 2.355-.694 4.395-2.222 5.856-1.794 1.754-4.136 2.352-6.729 1.75-3.488-.874-5.467-4.26-4.534-7.77.645-2.426 2.655-4.215 5.13-4.302v3.345c-.407.066-.782.148-1.145.242-1.274.33-1.967 1.417-1.668 2.605.391 1.54 2.112 2.302 3.418 1.522.632-.377.996-1.21.997-1.92.005-4.21.005-8.42.001-12.63l3.033-.002z"/></path></svg></a>
+                </div>
+            </div>
+
+            <!-- KOLOM 2: KATEGORI (8 LABEL) -->
+            <div class="wc-f-col">
+                <h4>Kategori</h4>
+                <ul class="wc-f-ul">
+                    <li><a href="/search/label/Headline">Headline</a></li>
+                    <li><a href="/search/label/Ekonomi">Ekonomi</a></li>
+                    <li><a href="/search/label/Politik">Politik</a></li>
+                    <li><a href="/search/label/Hiburan">Hiburan</a></li>
+                    <li><a href="/search/label/Tekno">Tekno</a></li>
+                    <li><a href="/search/label/Nasional">Nasional</a></li>
+                    <li><a href="/search/label/Olahraga">Olahraga</a></li>
+                    <li><a href="/search/label/Internasional">Internasional</a></li>
+                </ul>
+            </div>
+
+            <!-- KOLOM 3: INFORMASI (8 HALAMAN) -->
+            <div class="wc-f-col">
+                <h4>Informasi</h4>
+                <ul class="wc-f-ul">
+                    <li><a href="/p/redaksi.html">Redaksi</a></li>
+                    <li><a href="/p/pedoman-media-siber.html">Media Siber</a></li>
+                    <li><a href="/p/karir.html">Karir</a></li>
+                    <li><a href="/p/kontak.html">Kotak Pos</a></li>
+                    <li><a href="/p/info-iklan.html">Info Iklan</a></li>
+                    <li><a href="/p/privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="/p/disclaimer.html">Disclaimer</a></li>
+                    <li><a href="/p/sitemap.html">Peta Situs</a></li>
+                </ul>
+            </div>
+
+            <!-- KOLOM 4: JARINGAN -->
+            <div class="wc-f-col">
+                <h4>Jaringan</h4>
+                <ul class="wc-f-ul">
+                    <li><a href="#">Mitra Creative A</a></li>
+                    <li><a href="#">Mitra Creative B</a></li>
+                    <li><a href="#">Digital News Net</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="wc-f-copyright">
+            Copyright © <span id="autoYearFinal"></span> <strong>wartacreative</strong>. All right reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('autoYearFinal').innerHTML = new Date().getFullYear();
+</script>]]></b:widget-setting>
+    </b:widget-settings>
+    <b:includable id='main'>
+  <b:include name='widget-title'/>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+</b:includable>
+  </b:widget>
+</b:section></div></footer>
+
+  <script>
+    /* Auto-Hide Iklan Kosong */
+    window.onload = function() {
+      var ad = document.getElementById(&#39;ads-top-paling-atas&#39;);
+      if (ad &amp;&amp; ad.innerHTML.replace(/\s/g, &#39;&#39;).length == 0) {
+        document.getElementById(&#39;ads-top-wrapper&#39;).style.display = &#39;none&#39;;
+      }
+    };
+  </script>
+
+</body>
+</html>
