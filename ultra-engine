@@ -1,0 +1,191 @@
+<div id='wc-ultra-engine' style='display:none;'>
+  <div id='wc-hasil-susunan'></div>
+</div>
+
+<script>
+// <![CDATA[
+(function() {
+  var urlSekarang = window.location.href;
+  if (urlSekarang.indexOf('.html') === -1) return;
+
+  function ambilData() {
+    var path = window.location.pathname;
+    fetch('/feeds/posts/default?alt=json&path=' + path, { cache: "no-store" })
+      .then(res => res.json())
+      .then(data => {
+        var entry = data.feed.entry;
+        if (entry) {
+          var post = Array.isArray(entry) ? entry[0] : entry;
+          var namaBlog = data.feed.title.$t; 
+          renderTemplate(post, namaBlog);
+        }
+      })
+      .catch(err => {
+        console.error("Gagal memuat artikel:", err);
+        document.querySelectorAll('.post-body, .post-title').forEach(el => el.style.display = 'block');
+      });
+  }
+
+  function renderTemplate(post, namaBlog) {
+    try {
+      var judul = post.title.$t;
+      var isi = post.content.$t;
+      var link = post.link.find(l => l.rel === 'alternate').href;
+      var kategori = post.category ? post.category[0].term : "Berita";
+
+      var fullID = post.id.$t; 
+      var blogID = fullID.match(/blog-(\d+)/) ? fullID.match(/blog-(\d+)/)[1] : "";
+      var postID = fullID.match(/post-(\d+)/) ? fullID.match(/post-(\d+)/)[1] : "";
+
+      var htmlLabel = "";
+      if (post.category) {
+        htmlLabel = "<div class='p-label-list'><strong>Topik:</strong> ";
+        post.category.forEach((c, i) => {
+          htmlLabel += "<a href='/search/label/" + encodeURIComponent(c.term) + "'>" + c.term + "</a>" + (i < post.category.length - 1 ? ", " : "");
+        });
+        htmlLabel += "</div>";
+      }
+
+      var divTemp = document.createElement('div');
+      divTemp.innerHTML = isi;
+      var imgAsli = divTemp.querySelector('img');
+      var ketGambar = judul; 
+
+      if (imgAsli) {
+        var captionEl = divTemp.querySelector('.tr-caption, figcaption');
+        if (captionEl) {
+          ketGambar = captionEl.innerText || captionEl.textContent;
+        } else {
+          ketGambar = imgAsli.getAttribute('alt') || judul;
+        }
+        (imgAsli.closest('table') || imgAsli.closest('.separator') || imgAsli).remove();
+      }
+      var isiBersih = divTemp.innerHTML;
+
+      var gbrFull = post.media$thumbnail ? post.media$thumbnail.url.replace(/\/s[0-9]+(-c)?\//, "/s1600/") : "";
+      var container = document.getElementById('wc-ultra-engine');
+      var hasil = document.getElementById('wc-hasil-susunan');
+      
+      var finalHtml = "<div class='premium-container'>";
+      finalHtml += "<div class='p-header'><a href='#' class='p-kategori-biru'>" + kategori + "</a><h1 class='p-judul'>" + judul + "</h1>";
+      finalHtml += "<div class='p-share-wrapper'>" + buatTombolBerbagi(link, judul) + "</div></div>";
+      
+      if (gbrFull) {
+        finalHtml += "<div class='p-media-frame'><img src='" + gbrFull + "'/><div class='p-caption'>Foto: " + ketGambar + " - " + namaBlog + "</div></div>";
+      }
+
+      finalHtml += "<div class='p-konten'>" + isiBersih + "</div>";
+      finalHtml += htmlLabel;
+      finalHtml += "<div id='p-related-post'></div>";
+
+      if(blogID && postID) {
+        finalHtml += "<div class='p-komentar'><h3>Komentar</h3><iframe src='https://blogger.com" + blogID + "&postID=" + postID + "' width='100%' height='300' frameborder='0'></iframe></div>";
+      }
+
+      finalHtml += "<div id='pindah-grid-home'></div></div>";
+
+      hasil.innerHTML = finalHtml;
+      container.style.display = 'block';
+
+      muatTerkait(kategori, link);
+      pindahkanGrid();
+
+      ['.post-body', '.post-title', '.post-header', '.post-footer', '.post-labels', 'h1.entry-title', '.post-timestamp'].forEach(s => { 
+        document.querySelectorAll(s).forEach(el => el.style.display = 'none'); 
+      });
+
+    } catch (e) {
+      console.error("Error Render:", e);
+    }
+  }
+
+  function buatTombolBerbagi(l, t) {
+    var u = encodeURIComponent(l), ti = encodeURIComponent(t);
+    return "<div class='s-grid'>" +
+      "<a class='s-btn' href='https://whatsapp.com"+ti+"%20"+u+"' target='_blank'><svg viewbox='0 0 24 24'><circle fill='#25D366' cx='12' cy='12' r='12'/><path fill='#fff' d='M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.038 3.284l-.569 2.071 2.122-.556c.945.514 1.96.786 2.991.787h.001c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.767-5.766zm3.369 8.174c-.073.205-.433.376-.692.399-.259.023-.512.123-.756-.044-.244-.167-1.031-.409-1.961-1.239-.724-.644-1.214-1.44-1.357-1.684-.143-.244-.015-.376.107-.498.11-.11.244-.288.366-.432.122-.144.163-.244.244-.41.082-.166.041-.31-.02-.432-.062-.122-.554-1.332-.758-1.832-.2-.487-.4-.421-.554-.432-.143-.006-.307-.006-.472-.006-.165 0-.432.062-.659.31-.227.248-.865.845-.865 2.06s.885 2.392 1.01 2.558c.125.166 1.742 2.664 4.223 3.732.59.255 1.05.407 1.41.521.594.19 1.135.163 1.56.1.475-.07 1.464-.598 1.67-1.175.206-.576.206-1.07.144-1.175-.062-.105-.227-.166-.492-.3z'/></svg></a>" +
+      "<a class='s-btn' href='https://facebook.com"+u+"' target='_blank'><svg viewbox='0 0 24 24'><circle fill='#1877F2' cx='12' cy='12' r='12'/><path fill='#fff' d='M14 12h-2v7H9v-7H7V9h2V7.125C9 5.19 10.335 4 12.188 4 13.075 4 13.84 4.066 14.062 4.094V6.5h-1.875C11.305 6.5 11 6.91 11 7.586V9h3l-.375 3z'/></svg></a>" +
+      "<a class='s-btn' href='https://tiktok.com' target='_blank'><svg viewbox='0 0 24 24'><circle fill='#000' cx='12' cy='12' r='12'/><path fill='#fff' d='M16.062 8.125a3.31 3.31 0 0 1-2.188-.813V12a4.875 4.875 0 1 1-4.875-4.875c.125 0 .25.016.375.032V9.61a2.531 2.531 0 1 0 1.938 2.452V4.5h2.438c.063.813.563 1.563 1.313 2.125.75.563 1.625.875 2.5.875v2.625c-.5-.015-1-.156-1.5-.375z'/></svg></a>" +
+      "<a class='s-btn' href='javascript:void(0)' onclick='navigator.clipboard.writeText(\""+l+"\").then(()=>alert(\"Link disalin!\"))'><svg viewbox='0 0 24 24'><circle fill='#7f8c8d' cx='12' cy='12' r='12'/><path fill='#fff' d='M16.07 11.23l-.71-.71a2 2 0 0 0-2.83 0l-.7.71a1 1 0 1 1-1.42-1.42l.71-.71a4 4 0 0 1 5.66 0l.71.71a4 4 0 0 1 0 5.66l-2.12 2.12a4 4 0 0 1-5.66 0 1 1 0 0 1 1.42-1.42 2 2 0 0 0 2.83 0l2.12-2.12a2 2 0 0 0 0-2.82zm-8.14 1.54a1 1 0 0 1 1.42 0 2 2 0 0 0 2.83 0l2.12-2.12a2 2 0 0 0 0-2.83 1 1 0 0 1 1.42-1.42 4 4 0 0 1 0 5.66l-2.12 2.12a4 4 0 0 1-5.66 0 4 4 0 0 1 0-5.66 1 1 0 0 1 1.42 1.42l-.71.71a2 2 0 0 0 0 2.83z'/></svg></a>" +
+      "<a class='s-btn' href='javascript:void(0)' onclick='window.print()'><svg viewbox='0 0 24 24'><circle fill='#2c3e50' cx='12' cy='12' r='12'/><path fill='#fff' d='M18 9h-1V6c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v3H6c-1.1 0-2 .9-2 2v4h3v3h10v-3h3v-4c0-1.1-.9-2-2-2zm-9-3h6v3H9V6zm6 12H9v-4h6v4zm2-6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z'/></svg></a>" +
+      "</div>";
+  }
+
+  function muatTerkait(lab, cur) {
+    fetch('/feeds/posts/default/-/' + encodeURIComponent(lab) + '?alt=json&max-results=4')
+      .then(res => res.json()).then(data => {
+        var entries = data.feed.entry;
+        if(!entries) return;
+        var h = "<div class='rel-box'><h3>Artikel Terkait</h3><div class='rel-grid'>";
+        entries.forEach(e => {
+          var elink = e.link.find(l => l.rel === 'alternate').href;
+          if (elink !== cur) {
+            var etumb = e.media$thumbnail ? e.media$thumbnail.url.replace('/s72-c/', '/s400/') : 'https://placehold.jp';
+            h += "<a href='"+elink+"' class='rel-item'><img src='"+etumb+"'/><span>"+e.title.$t+"</span></a>";
+          }
+        });
+        document.getElementById('p-related-post').innerHTML = h + "</div></div>";
+      });
+  }
+
+  function pindahkanGrid() {
+    setTimeout(function() {
+      var target = document.getElementById('grid-3-home') || document.querySelector('.grid-3-home');
+      if (target) {
+        var dest = document.getElementById('pindah-grid-home');
+        if(dest) dest.appendChild(target);
+      }
+    }, 2000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ambilData);
+  } else {
+    ambilData();
+  }
+})();
+// ]]>
+</script>
+
+<style>
+/* --- CORE --- */
+#wc-ultra-engine { background:#fff; color:#222; font-family: sans-serif; }
+.premium-container { max-width:800px; margin:0 auto; padding:10px 20px; }
+
+/* Header & Judul */
+.p-kategori-biru { color:#007bff; text-decoration:none; font-weight:700; text-transform:uppercase; font-size:13px; }
+.p-judul { font-size:clamp(24px, 5vw, 38px); font-weight:800; line-height:1.1; margin:10px 0; letter-spacing:-0.5px; }
+.p-share-wrapper { margin: 15px 0; }
+
+/* Share Buttons */
+.s-grid { display:flex; gap:12px; }
+.s-btn { width:35px; height:35px; display:block; transition: 0.2s; }
+.s-btn:hover { transform: scale(1.1); }
+.s-btn svg { width:100%; height:100%; }
+
+/* Gambar & Caption */
+.p-media-frame { margin: 0; }
+.p-media-frame img { width:100%; border-radius:4px; display:block; }
+.p-caption { font-size:12px; color:#777; padding: 8px 0; border-bottom:1px solid #eee; font-style:italic; margin-bottom: 2px !important; }
+
+/* Konten (JARAK DIPERBAIKI) */
+.p-konten { font-size:19px; line-height:1.6; color:#333; margin-top: 0 !important; }
+.p-konten p { margin-top: 0 !important; margin-bottom: 15px; }
+
+/* Lainnya */
+.p-label-list { margin-top: 25px; padding: 15px 0; border-top: 1px dashed #eee; font-size: 14px; }
+.p-label-list a { color: #007bff; text-decoration: none; font-weight: 600; margin-left:5px; }
+.rel-box { margin-top: 30px; border-top: 2px solid #222; padding-top: 15px; }
+.rel-grid { display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px; }
+.rel-item { text-decoration:none; color:#222; font-size:14px; font-weight:700; }
+.rel-item img { width:100%; height:130px; object-fit:cover; border-radius:4px; margin-bottom:8px; }
+.p-komentar { margin-top: 30px; padding: 15px; background:#f9f9f9; border-radius:8px; }
+
+/* Responsive */
+@media (max-width: 600px) { 
+  .premium-container { padding: 10px 0; }
+  .p-header, .p-konten, .p-label-list, .rel-box, .p-komentar { padding-left: 15px; padding-right: 15px; }
+  .p-media-frame img { border-radius: 0; }
+  .p-caption { margin-left: 15px; margin-right: 15px; }
+  .rel-grid { grid-template-columns: 1fr; } 
+}
+</style>
