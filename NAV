@@ -1,0 +1,47 @@
+<style>
+/* --- KOREKSI NAV: HURUF BESAR AWAL --- */
+.wc-nav-scroll { display:flex; overflow-x:auto; white-space:nowrap; scrollbar-width:none; padding:0 15px; background:#fff; border-bottom:1px solid #eee; }
+.wc-nav-scroll::-webkit-scrollbar { display:none; }
+
+.n-item { 
+    color:#444; padding:15px 18px; display:inline-block; text-decoration:none; 
+    font-size:14px; font-weight:700; 
+    text-transform: capitalize; /* HURUF BESAR AWAL */
+    cursor:pointer; transition:0.2s; 
+}
+.n-item:hover { color:#001ba0; }
+
+#wc-drop-box { display:none; position:absolute; top:100%; left:0; right:0; background:#fff; z-index:999; box-shadow:0 15px 30px rgba(0,0,0,0.1); padding:20px; border-top:1px solid #eee; }
+#wc-drop-box.aktif { display:block; }
+.g-more-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:10px; max-width:1200px; margin:auto; }
+.g-more-grid a { background:#f9f9f9; padding:10px; text-align:center; text-decoration:none; color:#333; border-radius:10px; font-size:13px; font-weight:600; text-transform:capitalize; }
+</style>
+
+<div style="position:relative; background:#fff;">
+    <nav class="wc-nav-scroll" id="nav-target-box"></nav>
+    <div id="wc-drop-box">
+        <div style="font-size:10px; color:#bbb; text-transform:uppercase; font-weight:800; margin-bottom:15px; letter-spacing:1px;">Lainnya</div>
+        <div class="g-more-grid" id="more-target-links"></div>
+    </div>
+</div>
+
+<script>
+function buildSmartNav(json){
+    var cats = json.feed.category; var nav = document.getElementById('nav-target-box'); var more = document.getElementById('more-target-links');
+    if(cats){
+        for(var i=0; i<cats.length; i++){
+            var name = cats[i].term; var url = "/search/label/" + encodeURIComponent(name);
+            if (i < 10) {
+                var a = document.createElement('a'); a.className = 'n-item'; a.href = url; a.innerHTML = name; nav.appendChild(a);
+            } else {
+                if (i === 10) {
+                    var btn = document.createElement('div'); btn.className = 'n-item'; btn.innerHTML = 'Lainnya ▾'; btn.onclick = function(e){ e.stopPropagation(); document.getElementById('wc-drop-box').classList.toggle('aktif'); }; nav.appendChild(btn);
+                }
+                var am = document.createElement('a'); am.href = url; am.innerHTML = name; more.appendChild(am);
+            }
+        }
+    }
+}
+window.onclick = function(e){ if(!e.target.closest('#nav-target-box')){ document.getElementById('wc-drop-box').classList.remove('aktif'); } }
+</script>
+<script src="/feeds/posts/summary?alt=json-in-script&max-results=0&callback=buildSmartNav"></script>
