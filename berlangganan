@@ -1,0 +1,20 @@
+<style>
+.wc-side3-box { background: #f9f9f9; padding: 25px; border-radius: 20px; text-align: center; }
+.wc-side3-title { font-size: 16px; font-weight: 800; color: #333; margin-bottom: 15px; display: block; }
+.wc-side3-desc { font-size: 13px; color: #777; margin-bottom: 20px; line-height: 1.5; }
+
+/* Tombol Subscribe Simpel */
+.wc-sub-form { display: flex; flex-direction: column; gap: 10px; }
+.wc-sub-input { padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; font-size: 13px; }
+.wc-sub-btn { background: #001ba0; color: #fff; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.wc-sub-btn:hover { background: #000; }
+</style>
+
+<div class="wc-side3-box">
+    <span class="wc-side3-title">Langganan Berita</span>
+    <p class="wc-side3-desc">Dapatkan informasi terkini langsung ke email Anda setiap hari.</p>
+    <div class="wc-sub-form">
+        <input type="email" class="wc-sub-input" placeholder="Alamat Email Anda..." />
+        <button class="wc-sub-btn">Gabung Sekarang</button>
+    </div>
+</div>
