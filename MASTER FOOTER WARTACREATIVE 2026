@@ -1,0 +1,147 @@
+<style>
+/* --- MASTER FOOTER WARTACREATIVE 2026 --- */
+.wc-footer-global {
+    background: #ffffff;
+    padding: 60px 0 30px;
+    border-top: 1px solid #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+}
+
+.wc-f-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- TAMPILAN DESKTOP (KOLOM) --- */
+.wc-f-desktop-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.wc-f-col { flex: 1; min-width: 150px; }
+.wc-f-col-brand { flex: 1.5; min-width: 250px; }
+
+.wc-f-logo-img { height: 45px; width: auto; display: block; margin-bottom: 20px; }
+.wc-f-col h4 { font-size: 13px; font-weight: 800; color: #333; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+.wc-f-ul { list-style: none; padding: 0; margin: 0; }
+.wc-f-ul li { margin-bottom: 12px; }
+.wc-f-ul a { text-decoration: none; color: #777; font-size: 14px; transition: 0.2s; }
+.wc-f-ul a:hover { color: #001ba0; padding-left: 5px; }
+
+/* --- TAMPILAN MOBILE (AUTO-HIDE) --- */
+.wc-f-mobile-links {
+    display: none; /* Sembunyi di desktop */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 15px;
+    margin-bottom: 25px;
+    padding: 0 10px;
+    text-align: center;
+}
+.wc-f-mobile-links a { text-decoration: none; color: #666; font-size: 13px; font-weight: 600; }
+.wc-f-mobile-links span { color: #ddd; font-size: 10px; }
+
+/* --- SOSMED BERWARNA PREMIUM --- */
+.wc-f-soc-title { font-size: 11px; font-weight: 800; color: #bbb; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+.wc-f-soc-flex { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+.wc-f-soc-item {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; transition: 0.3s;
+}
+/* Warna Ikon Sesuai Brand */
+.wa-c{background:#25D366}.fb-c{background:#1877f2}.x-c{background:#000}.ig-c{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}.in-c{background:#0077b5}.yt-c{background:#ff0000}.tk-c{background:#000}
+.wc-f-soc-item svg { width: 18px; height: 18px; fill: #fff; }
+
+/* COPYRIGHT */
+.wc-f-copyright { width: 100%; margin-top: 40px; padding: 25px 20px; border-top: 1px solid #f5f5f5; text-align: center; font-size: 12px; color: #bbb; }
+
+/* --- LOGIKA RESPONSIVE HP --- */
+@media screen and (max-width: 800px) {
+    .wc-f-desktop-wrap .wc-f-col:not(.wc-f-col-brand) { display: none !important; }
+    .wc-f-mobile-links { display: flex !important; }
+    .wc-f-col-brand { width: 100% !important; text-align: center !important; }
+    .wc-f-logo-img { height: 30px !important; margin: 0 auto 20px !important; }
+    .wc-f-soc-flex { justify-content: center !important; }
+    .wc-f-soc-title { display: none; }
+}
+</style>
+
+<footer class="wc-footer-global">
+    <div class="wc-f-container">
+        <div class="wc-f-desktop-wrap">
+            <!-- KOLOM 1: BRAND -->
+            <div class="wc-f-col-brand">
+                <a href="/"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjC-qVF4PkcUohGKS8c4NnjG21DH6ZtqQj6zkX-CDjP-Nko1o8qX8SVb0XP5mVjviVOTAg-FgMq1y0062wS-y6TTMF9Zga2T57lO5J_a5i7m9XdP05STmwRKN5o5AlxEGPniVUmZvxJjgtPXVK9dSaeWGb7vFLUGcrGWbvaT7xlM8ieMPo/s1600/logowa.png" class="wc-f-logo-img" alt="wartacreative"/></a>
+                <div class="wc-f-mobile-links">
+                    <a href="/p/redaksi.html">Redaksi</a> <span>•</span>
+                    <a href="/p/pedoman-media-siber.html">Pedoman Media Siber</a> <span>•</span>
+                    <a href="/p/karir.html">Karir</a> <span>•</span>
+                    <a href="/p/kontak.html">Kotak Pos</a> <span>•</span>
+                    <a href="/p/info-iklan.html">Info Iklan</a> <span>•</span>
+                    <a href="/p/privacy-policy.html">Privacy Policy</a> <span>•</span>
+                    <a href="/p/disclaimer.html">Disclaimer</a> <span>•</span>
+                    <a href="/p/sitemap.html">Peta Situs</a>
+                </div>
+
+                <div class="wc-f-soc-title">Ikuti Kami</div>
+                <div class="wc-f-soc-flex">
+                    <a href="https://wa.me" target="_blank" class="wc-f-soc-item wa-c"><svg viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item fb-c"><svg viewbox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item x-c"><svg viewbox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.494h2.039L6.486 3.24H4.298l13.311 17.407z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item ig-c"><svg viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item tk-c"><svg viewbox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.39-2.82-.12-1.07.3-1.95 1.17-2.27 2.21-.24.8-.24 1.68-.05 2.48.33 1.25 1.34 2.27 2.59 2.55.8.21 1.66.19 2.45-.07.95-.33 1.74-1.1 2.06-2.05.15-.41.21-.84.21-1.27l.02-11.97z"/></path></svg></a>
+                    <a href="#" target="_blank" class="wc-f-soc-item yt-c"><svg viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></path></svg></a>
+                </div>
+            </div>
+
+            <!-- KOLOM KATEGORI, INFORMASI & JARINGAN -->
+            <div class="wc-f-col">
+                <h4>Kategori</h4>
+                <ul class="wc-f-ul">
+                    <li><a href="/search/label/Headline">Headline</a></li>
+                    <li><a href="/search/label/Ekonomi">Ekonomi</a></li>
+                    <li><a href="/search/label/Politik">Politik</a></li>
+                    <li><a href="/search/label/Hiburan">Hiburan</a></li>
+                    <li><a href="/search/label/Tekno">Tekno</a></li>
+                    <li><a href="/search/label/Nasional">Nasional</a></li>
+                    <li><a href="/search/label/Olahraga">Olahraga</a></li>
+                    <li><a href="/search/label/Internasional">Internasional</a></li>
+                </ul>
+            </div>
+            <div class="wc-f-col">
+                <h4>Informasi</h4>
+                <ul class="wc-f-ul">
+                    <li><a href="/p/redaksi.html">Redaksi</a></li>
+                    <li><a href="/p/pedoman-media-siber.html">Media Siber</a></li>
+                    <li><a href="/p/karir.html">Karir</a></li>
+                    <li><a href="/p/kontak.html">Kotak Pos</a></li>
+                    <li><a href="/p/info-iklan.html">Info Iklan</a></li>
+                    <li><a href="/p/privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="/p/disclaimer.html">Disclaimer</a></li>
+                    <li><a href="/p/sitemap.html">Peta Situs</a></li>
+                </ul>
+            </div>
+            <div class="wc-f-col">
+                <h4>Jaringan</h4>
+                <ul class="wc-f-ul">
+                    <li><a href="#">Mitra Creative A</a></li>
+                    <li><a href="#">Mitra Creative B</a></li>
+                    <li><a href="#">Digital News Net</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="wc-f-copyright">
+            Copyright © <span id="autoYearFinal"></span> <strong>wartacreative</strong>. All right reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('autoYearFinal').innerHTML = new Date().getFullYear();
+</script>
