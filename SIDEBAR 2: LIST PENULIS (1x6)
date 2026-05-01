@@ -1,0 +1,113 @@
+<style>
+/* --- SIDEBAR 2: LIST PENULIS (1x6) --- */
+.wc-side2-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Jarak antar baris */
+    background: #ffffff;
+    padding: 10px 0;
+}
+
+.wc-side2-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* GAMBAR KECIL DI KIRI */
+.wc-side2-img {
+    flex-shrink: 0;
+    width: 85px;
+    height: 65px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.wc-side2-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* KONTEN TEKS DI KANAN */
+.wc-side2-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wc-side2-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #222;
+    margin: 0;
+    /* Desktop: Maksimal 2 baris agar rapi */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-side2-author {
+    font-size: 12px;
+    color: #777;
+    font-weight: 500;
+}
+
+/* Efek Hover */
+.wc-side2-item:hover .wc-side2-title { color: #001ba0; }
+.wc-side2-item:hover .wc-side2-img img { opacity: 0.8; }
+
+/* --- RESPONSIVE HP: PAKSA UKURAN 16PX & JUDUL UTUH --- */
+@media (max-width: 768px) {
+    .wc-side2-img { width: 75px; height: 60px; }
+    
+    /* Perubahan: Ukuran 16px dan judul muncul semua (tidak dipotong) */
+    .wc-side2-title { 
+        font-size: 16px !important; 
+        display: block !important; 
+        overflow: visible !important; 
+        -webkit-line-clamp: unset !important; 
+        max-height: none !important;
+    }
+}
+</style>
+
+<div class="wc-side2-container" id="sidebar2-list-target">
+    <!-- 6 Postingan akan muncul di sini -->
+</div>
+
+<script>
+(function() {
+    var jumlahSide = 6; // Menampilkan 6 baris (1x6)
+    
+    fetch('/feeds/posts/summary?alt=json&max-results=' + jumlahSide)
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        json.feed.entry.forEach(post => {
+            let title = post.title.$t;
+            let link = post.link.find(l => l.rel === 'alternate').href;
+            let author = post.author[0].name.$t; // Mengambil nama penulis asli
+            let thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's200') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-side2-item">
+                    <div class="wc-side2-img">
+                        <img src="${thumb}" alt="${title}"/>
+                    </div>
+                    <div class="wc-side2-info">
+                        <h4 class="wc-side2-title">${title}</h4>
+                        <span class="wc-side2-author">Oleh: ${author}</span>
+                    </div>
+                </a>
+            `;
+        });
+        document.getElementById('sidebar2-list-target').innerHTML = html;
+    });
+})();
+</script>
