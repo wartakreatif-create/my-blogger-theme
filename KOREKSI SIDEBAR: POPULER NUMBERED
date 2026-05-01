@@ -1,0 +1,151 @@
+<style>
+/* --- KOREKSI SIDEBAR: POPULER NUMBERED --- */
+.wc-side-pop {
+    background: #ffffff;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.wc-side-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wc-side-title::before {
+    display: none;
+}
+
+.wc-pop-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 22px;
+    text-decoration: none;
+    /* PERBAIKAN: Diubah ke center agar angka sejajar tengah dengan teks */
+    align-items: center; 
+}
+
+/* Angka Lingkaran */
+.wc-pop-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #f0f0f0;
+    color: #555;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    /* PERBAIKAN: Menjaga angka tetap di tengah */
+    line-height: 1;
+    transition: 0.3s;
+}
+
+.wc-pop-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wc-pop-link-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #222;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-pop-tag {
+    font-size: 10px;
+    font-weight: 800;
+    color: #001ba0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Efek Hover */
+.wc-pop-item:hover .wc-pop-num {
+    background: #001ba0;
+    color: #fff;
+    transform: scale(1.1);
+}
+.wc-pop-item:hover .wc-pop-link-title {
+    color: #001ba0;
+}
+
+.wc-see-more {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #001ba0;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+/* KHUSUS HP: Ubah judul dari 14px ke 16px */
+@media screen and (max-width: 600px) {
+    .wc-pop-link-title {
+        font-size: 16px;
+    }
+}
+</style>
+
+<div class="wc-side-pop">
+    <div class="wc-side-title">Populer</div>
+    <div id="populer-list-target">Memuat konten...</div>
+    <a href="/search" class="wc-see-more">populer lainnya &rsaquo;</a>
+</div>
+
+<script>
+(function() {
+    fetch('/feeds/posts/summary?alt=json&max-results=5&orderby=published')
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        let entries = json.feed.entry;
+
+        if (entries && entries.length > 0) {
+            entries.forEach((post, index) => {
+                let title = post.title.$t;
+                let link = post.link.find(l => l.rel === 'alternate').href;
+                
+                let tag = 'News';
+                if (post.category && post.category.length > 0) {
+                    tag = post.category[0].term;
+                }
+                
+                let num = index + 1;
+                
+                html += `
+                    <a href="${link}" class="wc-pop-item">
+                        <div class="wc-pop-num">${num}</div>
+                        <div class="wc-pop-text">
+                            <h4 class="wc-pop-link-title">${title}</h4>
+                            <span class="wc-pop-tag">${tag}</span>
+                        </div>
+                    </a>
+                `;
+            });
+            document.getElementById('populer-list-target').innerHTML = html;
+        } else {
+            document.getElementById('populer-list-target').innerHTML = 'Tidak ada artikel.';
+        }
+    })
+    .catch(err => {
+        document.getElementById('populer-list-target').innerHTML = 'Gagal memuat.';
+        console.error(err);
+    });
+})();
+</script>
