@@ -1,0 +1,139 @@
+<style>
+/* --- GRID VIDEO OVERFLOW PREMIUM --- */
+.wc-video-full {
+    background: #ffffff;
+    padding: 30px 0;
+    margin: 20px 0;
+    width: 100%;
+    border-top: 1px solid #f0f0f0;
+}
+
+.wc-video-header {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    padding: 0 20px;
+}
+
+.wc-video-scroll-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 20px 20px 20px;
+    gap: 20px;
+    scrollbar-width: none;
+}
+
+.wc-video-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+.wc-video-item {
+    flex: 0 0 23%; /* Tampil 4 item di desktop */
+    min-width: 250px;
+    scroll-snap-align: start;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Kotak Frame Video */
+.wc-v-container {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #000;
+}
+
+.wc-v-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.wc-v-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #222;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.wc-v-snippet {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-v-date {
+    font-size: 11px;
+    color: #bbb;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .wc-video-item { flex: 0 0 75%; min-width: 280px; }
+}
+</style>
+
+<div class="wc-video-full">
+    <div class="wc-video-header">
+        <h3 style="font-size: 20px; font-weight: 800; color: #333;">Video Terkini</h3>
+    </div>
+    <div class="wc-video-scroll-wrapper" id="video-overflow-target">
+        <!-- Video Iframe muncul otomatis di sini -->
+    </div>
+</div>
+
+<script>
+(function() {
+    var labelVideo = "Video"; 
+    var totalVideo = 8; 
+    
+    // Menggunakan /default/ agar bisa mengambil konten lengkap (bukan summary saja)
+    fetch('/feeds/posts/default/-/' + labelVideo + '?alt=json&max-results=' + totalVideo)
+    .then(res => res.json())
+    .then(json => {
+        let html = '';
+        if (!json.feed.entry) return;
+
+        json.feed.entry.forEach(post => {
+            let title = post.title.$t;
+            let content = post.content ? post.content.$t : "";
+            let snippet = post.summary ? post.summary.$t.substring(0, 80) : "";
+            let date = new Date(post.published.$t).toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
+            
+            // Logika mencari ID Video YouTube dari isi postingan
+            let youtubeId = "";
+            let youtubeMatch = content.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            
+            if (youtubeMatch && youtubeMatch[1]) {
+                youtubeId = youtubeMatch[1];
+            }
+
+            // Jika ID ditemukan, tampilkan Iframe. Jika tidak, tampilkan gambar placeholder
+            let mediaContent = youtubeId 
+                ? `<iframe src="https://youtube.com{youtubeId}" allowfullscreen></iframe>`
+                : `<img src="https://placeholder.com" style="width:100%;height:100%;object-fit:cover;"/>`;
+            
+            html += `
+                <div class="wc-video-item">
+                    <div class="wc-v-container">
+                        ${mediaContent}
+                    </div>
+                    <h4 class="wc-v-title">${title}</h4>
+                    <p class="wc-v-snippet">${snippet}...</p>
+                    <span class="wc-v-date">${date} WIB</span>
+                </div>
+            `;
+        });
+        document.getElementById('video-overflow-target').innerHTML = html;
+    });
+})();
+</script>
