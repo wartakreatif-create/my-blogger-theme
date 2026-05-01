@@ -1,0 +1,22 @@
+<script>
+/* SCRIPT PENGIKAT SIDEBAR (TANPA EDIT HTML) */
+(function() {
+  const gayaSticky = `
+    .sidebar-area {
+      position: -webkit-sticky !important;
+      position: sticky !important;
+      top: 140px !important; /* Jarak pas di bawah navigasi Pak Boss */
+      align-self: flex-start !important;
+      height: fit-content !important;
+    }
+    @media (max-width: 768px) {
+      .sidebar-area { position: relative !important; top: 0 !important; }
+    }
+  `;
+
+  // Menanamkan gaya ke dalam blog secara otomatis
+  const styleTag = document.createElement('style');
+  styleTag.innerHTML = gayaSticky;
+  document.head.appendChild(styleTag);
+})();
+</script>
