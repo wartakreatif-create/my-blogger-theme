@@ -1,0 +1,119 @@
+<style>
+/* --- GRID 2: MULTI-POST LATEST 2025 --- */
+.wc-grid2-container {
+    display: grid;
+    /* DESKTOP: 3 Kolom */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.wc-grid2-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* GAMBAR SUDUT BULAT */
+.wc-g2-img-box {
+    width: 100%;
+    height: 140px; 
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f0f0f0;
+    margin-bottom: 12px;
+}
+
+.wc-g2-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+/* JUDUL BERITA DESKTOP */
+.wc-g2-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #222;
+    margin: 0 0 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* LABEL/KATEGORI */
+.wc-g2-label {
+    font-size: 12px;
+    color: #001ba0; 
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.wc-grid2-card:hover .wc-g2-img-box img { transform: scale(1.08); }
+.wc-grid2-card:hover .wc-g2-title { color: #001ba0; }
+
+/* --- RESPONSIVE HP: PAKSA UKURAN 16PX & JUDUL UTUH --- */
+@media screen and (max-width: 768px) {
+    .wc-grid2-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
+    .wc-g2-img-box { 
+        height: 110px !important; 
+        border-radius: 10px !important; 
+    }
+    
+    /* Paksa judul 16px dan muncul semua baris */
+    .wc-g2-title { 
+        font-size: 16px !important; 
+        display: block !important; 
+        overflow: visible !important; 
+        -webkit-line-clamp: unset !important; 
+        max-height: none !important;
+    }
+}
+</style>
+
+<div class="wc-grid2-container" id="latest-posts-grid2">
+    <!-- 6 Berita Terbaru akan muncul di sini -->
+</div>
+
+<script>
+(function() {
+    var maxBerita = 6; 
+    var s = document.createElement('script');
+    s.src = '/feeds/posts/summary?alt=json-in-script&max-results=' + maxBerita + '&callback=renderGrid2';
+    document.body.appendChild(s);
+})();
+
+function renderGrid2(json) {
+    var entries = json.feed.entry;
+    var container = document.getElementById('latest-posts-grid2');
+    var html = '';
+    
+    if (entries) {
+        for (var i = 0; i < entries.length; i++) {
+            var post = entries[i];
+            var title = post.title.$t;
+            var link = post.link.find(l => l.rel === 'alternate').href;
+            var label = post.category ? post.category[0].term : 'News'; 
+            var thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's400') : 'https://placeholder.com';
+            
+            html += `
+                <a href="${link}" class="wc-grid2-card">
+                    <div class="wc-g2-img-box">
+                        <img src="${thumb}" alt="${title}"/>
+                    </div>
+                    <h4 class="wc-g2-title">${title}</h4>
+                    <span class="wc-g2-label">${label}</span>
+                </a>
+            `;
+        }
+        container.innerHTML = html;
+    }
+}
+</script>
