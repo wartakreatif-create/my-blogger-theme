@@ -1,0 +1,124 @@
+<style>
+/* --- GRID 1: SMART HEADLINE 2025 --- */
+.wc-headline-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    background: #ffffff; /* Dasar putih */
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* KOTAK GAMBAR */
+.wc-h-img-box {
+    position: relative;
+    width: 100%;
+    height: 420px; /* Tinggi Desktop */
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.wc-h-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s ease;
+}
+
+/* BADGE: POSISI ATAS KIRI & WARNA LEMBUT */
+.wc-h-badge {
+    position: absolute;
+    top: 20px; 
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9); /* Putih transparan lembut */
+    color: #001ba0; /* Teks biru logo */
+    padding: 6px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: capitalize;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* OVERLAY DESKTOP: JUDUL DI ATAS GAMBAR */
+.wc-h-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 50px 25px 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    z-index: 5;
+}
+
+.wc-h-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    letter-spacing: -0.5px;
+}
+
+.wc-headline-wrapper:hover img { transform: scale(1.05); }
+
+/* --- RESPONSIVE LOGIC (KHUSUS HP) --- */
+@media (max-width: 768px) {
+    .wc-h-img-box { height: 240px; border-radius: 18px; } /* Gambar memendek */
+    
+    .wc-h-content { 
+        position: relative; /* JUDUL TURUN KE BAWAH GAMBAR */
+        background: transparent; 
+        padding: 15px 5px; 
+    }
+    
+    .wc-h-title { 
+        color: #222222; /* Teks jadi hitam agar terbaca di background putih */
+        font-size: 22px; 
+    }
+
+    .wc-h-badge {
+        top: 15px;
+        left: 15px;
+        padding: 4px 12px;
+        font-size: 11px;
+    }
+}
+</style>
+
+<div id="headline-grid-final">
+    <!-- Konten akan dimuat otomatis -->
+</div>
+
+<script>
+(function() {
+    var labelTujuan = "Headline"; // Pastikan label di artikel Pak Boss sama
+    
+    var s = document.createElement('script');
+    s.src = '/feeds/posts/summary/-/' + labelTujuan + '?alt=json-in-script&max-results=1&callback=showSmartHeadline';
+    document.body.appendChild(s);
+})();
+
+function showSmartHeadline(json) {
+    var entry = json.feed.entry;
+    var box = document.getElementById('headline-grid-final');
+    if (entry) {
+        var post = entry[0];
+        var title = post.title.$t;
+        var link = post.link.find(l => l.rel === 'alternate').href;
+        var thumb = post.media$thumbnail ? post.media$thumbnail.url.replace('s72-c', 's1600') : 'https://placeholder.com';
+        
+        box.innerHTML = `
+            <div class="wc-headline-wrapper">
+                <div class="wc-h-img-box">
+                    <span class="wc-h-badge">Headline</span>
+                    <a href="${link}"><img src="${thumb}" alt="${title}"/></a>
+                </div>
+                <div class="wc-h-content">
+                    <a href="${link}" class="wc-h-title">${title}</a>
+                </div>
+            </div>
+        `;
+    }
+}
+</script>
