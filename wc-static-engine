@@ -1,0 +1,75 @@
+<div id='wc-static-engine' style='display:none;'>
+  <div id='wc-static-hasil'></div>
+</div>
+
+<script>
+// <![CDATA[
+(function() {
+  var urlSekarang = window.location.href;
+  // Logika: Hanya jalan jika URL mengandung '/p/' (ciri khas halaman statis Blogger)
+  if (urlSekarang.indexOf('/p/') === -1) return;
+
+  function ambilDataStatis() {
+    var path = window.location.pathname;
+    fetch('/feeds/pages/default?alt=json&path=' + path)
+      .then(res => res.json())
+      .then(data => {
+        var entry = data.feed.entry ? (Array.isArray(data.feed.entry) ? data.feed.entry[0] : data.feed.entry) : null;
+        if (entry) renderLaman(entry);
+      })
+      .catch(err => {
+        console.error("Gagal load halaman:", err);
+        document.querySelectorAll('.post-body, .post-title').forEach(el => el.style.display = 'block');
+      });
+  }
+
+  function renderLaman(page) {
+    var judul = page.title.$t;
+    var isi = page.content.$t;
+    var link = page.link.find(l => l.rel === 'alternate').href;
+
+    var container = document.getElementById('wc-static-engine');
+    var hasil = document.getElementById('wc-static-hasil');
+
+    var html = "<div class='premium-container static-page'>";
+    html += "<h1 class='p-judul-statis'>" + judul + "</h1>";
+    html += "<div class='p-konten-statis'>" + isi + "</div>";
+    
+    // Opsional: Tombol Berbagi di bawah halaman statis
+    html += "<div class='p-share-statis'><h4>Bagikan Halaman:</h4><div class='s-grid'>" +
+      "<a class='s-btn fb' href='https://facebook.com"+encodeURIComponent(link)+"' target='_blank'></a>" +
+      "<a class='s-btn wa' href='https://whatsapp.com"+encodeURIComponent(judul + " " + link)+"' target='_blank'></a>" +
+      "<a class='s-btn cp' href='javascript:void(0)' onclick='navigator.clipboard.writeText(\""+link+"\").then(()=>alert(\"Link disalin\"))'></a>" +
+      "</div></div>";
+    
+    html += "</div>";
+
+    hasil.innerHTML = html;
+    container.style.display = 'block';
+
+    // Sembunyikan elemen asli Blogger khusus halaman statis
+    var targetSembunyi = ['.post-body', '.post-title', 'h1.entry-title', '.post-header', '.post-footer', '.post-timestamp'];
+    targetSembunyi.forEach(s => { document.querySelectorAll(s).forEach(el => el.style.display = 'none'); });
+  }
+
+  document.addEventListener('DOMContentLoaded', ambilDataStatis);
+})();
+// ]]>
+</script>
+
+<style>
+/* CSS KHUSUS LAMAN STATIS */
+#wc-static-engine { background:#fff; color:#222; font-family: sans-serif; }
+.premium-container.static-page { max-width:800px; margin:0 auto; padding:20px; }
+.p-judul-statis { font-size:clamp(28px, 5vw, 42px); font-weight:800; line-height:1.2; margin-bottom:20px; border-bottom:3px solid #007bff; display:inline-block; padding-bottom:5px; }
+.p-konten-statis { font-size:18px; line-height:1.8; color:#333; }
+.p-konten-statis p { margin-bottom:20px; }
+.p-share-statis { margin-top:40px; padding-top:20px; border-top:1px solid #eee; }
+.p-share-statis h4 { font-size:13px; color:#888; text-transform:uppercase; margin-bottom:10px; }
+/* Reuse tombol berbagi dari engine sebelumnya */
+.s-grid { display:flex; gap:10px; }
+.s-btn { width:35px; height:35px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:0.3s; }
+.fb { background:#3b5998; } .fb:before { content:'f'; color:#fff; font-weight:bold; }
+.wa { background:#25d366; } .wa:before { content:'\2706'; color:#fff; }
+.cp { background:#95a5a6; } .cp:before { content:'\1F517'; color:#fff; }
+</style>
